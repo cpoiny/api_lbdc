@@ -35,5 +35,11 @@ userRouter.delete("/:id", (req, res) => {
     userController.deleteUser(req,res);
 });
 
+// POST - LOGIN - AUTHENTICATION
+userRouter.post("/login", (req, res) => {
+    console.log("UserRouter - login");
+    userController.login(req, res);
+  })
+
 
 export default userRouter;
