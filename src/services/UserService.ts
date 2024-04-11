@@ -8,38 +8,44 @@ class UserService {
     private userRepository = AppDataSource.getRepository(User);
 
     // GET ALL USERS
-    async getAll() {
-        console.log("UserServices - get all");
-        //return AppDataSource.query("SELECT * FROM user;");
+    async getAllUsers() {
+        console.log("UserService - Get all");
         return this.userRepository.find();
     }
 
      // GET USER BY ID
-     async getById(id: number) {
-        console.log("USerService by id");
-    //return AppDataSource.query(`SELECT * FROM user where id = ${id}`);
-    return this.userRepository.findOneBy({id: id});
+    async getUserById(id: number) {
+        console.log("UserService - Get by id");
+        return this.userRepository.findOneBy({id: id});
     }
 
     // CREATE USER
     async signup(pseudo: string, email: string, password: string) {
-        console.log("UserService");
-    
+        console.log("UserService - Create");
         // 10 correspond au nombre de round pour le hashage
         const hashedPassword = await bcrypt.hash(password, 10);
-    
-        // grace au repository on a acces à la methode create qui est notre requete SQL avec orm
         const newUser = this.userRepository.create({
             pseudo: pseudo,
             email: email, 
             password: hashedPassword
         });
-    
-        // on save car la methode create ne save pas, elle create juste
+     // Save car méthode "create" ne save pas dans la BDD
      return await this.userRepository.save(newUser);
       }
 
 
+    // UPDATE USER
+    async updateUser(id: number, user: User) {
+        console.log("UserService - Update");
+        return this.userRepository.update(id, user);
+      }
+
+
+    // DELETE USER
+    async deleteUser(id: number) {
+        console.log("UserService - Delete");
+        return this.userRepository.delete(id);
+    }
     
 
 }

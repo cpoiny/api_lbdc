@@ -8,27 +8,27 @@ class UserController {
     private userService = new UserService();
 
     // GET ALL USERS
-    async getAll(req : Request, res: Response) {
+    async getAllUsers(req : Request, res: Response) {
         console.log("UserController - get all");
-        const users = await this.userService.getAll();
+        const users = await this.userService.getAllUsers();
         res.send({status: "OK", data: users})
     }
 
     // GET USER BY ID
-    async getById(req : Request, res: Response) {
-        console.log("UserController get by id");
+    async getUserById(req : Request, res: Response) {
+        console.log("UserController - get by id");
 
         try {
-            const user = await this.userService.getById(Number(req.params.id));
+            const user = await this.userService.getUserById(Number(req.params.id));
             res.send({status: "OK", data: user});
         } catch (error) {
-            res.status(500).send({status : "Error to get user by id", message: error});
+            res.status(500).send({status : "Failed to get user by id", message: error});
         }
     }
 
-  // CREATE USER - SIGNUP
+    // CREATE USER - SIGNUP
     async signup(req : Request, res : Response) {
-        console.log("UserController- signup");
+        console.log("UserController - signup");
         const pseudo = req.body.pseudo;
         const email = req.body.email;
         const password = req.body.password;
@@ -37,9 +37,34 @@ class UserController {
     if (createUser) {
         res.status(201).json({ message: "User created" });
     } else {
-        res.status(500).json({ message: `Error : Failed for the creation of user ${pseudo}` });
+        res.status(500).json({ message: `Failed to create user ${pseudo}` });
     }
 }
+
+    // UPDATE USER
+    async updateUser(req : Request, res: Response) {
+        console.log("UserController - update");
+
+        try {
+            const user = await this.userService.updateUser(Number(req.params.id), req.body);
+            res.send({status: "OK", data: user});
+        } catch (error) {
+            res.status(500).send({status : "Failed to update user", message: error});
+        }
+    }
+
+    // DELETE USER
+    async deleteUser(req : Request, res: Response) {
+        console.log("USerController - delete");
+
+        try {
+            const user = await this.userService.deleteUser(Number(req.params.id));
+            res.send({status: "OK", data: user});
+        } catch (error) {
+            res.status(500).send({status : "Failed to delete user", message: error});
+        }
+    }
+
 }
 
 export default UserController;
