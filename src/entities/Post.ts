@@ -11,43 +11,56 @@ export class Post {
     id?: number
 
     @Column({
-        length:100,
+        length:100
     })
     title?: string
     
-    @Column("text")
+    @Column(
+        "text"
+    )
     content?: string
     
-    @Column()
+    @Column({
+        length:100
+    })
     picture?: string
     
-    @CreateDateColumn({type: 'timestamp'})
+    @CreateDateColumn(
+        {type: 'timestamp'}
+    )
     publicated_at?: Date
     
-    @UpdateDateColumn({type: 'timestamp'})
+    @UpdateDateColumn(
+        {type: 'timestamp', nullable: true}
+    )
     updated_at?: Date
     
     @Column()
     is_draft?: boolean
     
-    @Column()
+    @Column({nullable: true})
     quantity_comments?: number
     
-    @Column()
+    @Column({nullable:true})
     quantity_likes?: number
 
-    @ManyToOne(()=> User, (user) => user.posts, {cascade: true})
+    @ManyToOne(()=> User, (user) => user.posts,
+    {nullable: false, cascade: true})
     user?: User
 
-    @ManyToOne(()=> Comment, (comment) => comment.post, {cascade: true})
+    @ManyToOne(
+        ()=> Comment, 
+        (comment) => comment.post, {nullable:true}
+    )
     comments?: Comment[]
 
-    @ManyToMany(() => Media)
-    @JoinTable()
-    by? : Media
+    // Si le media est delete, update alors le post aussi
+    @ManyToMany(() => Media, {onDelete: "CASCADE", onUpdate: "CASCADE"})
+    @JoinTable({name : "Post_media"})
+    media? : Media
 
     @ManyToMany(() => Author)
-    @JoinTable()
-    for? : Author
+    @JoinTable({name : "Post_author"})
+    author? : Author
 
 }

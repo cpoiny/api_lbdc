@@ -12,7 +12,7 @@ export class Author {
     @Column("text")
     description?: string
 
-    @Column()
+    @Column({nullable:true})
     picture?: string
 
 

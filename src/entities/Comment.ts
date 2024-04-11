@@ -11,10 +11,12 @@ export class Comment {
     @Column("text")
     comment?: string
 
-    @CreateDateColumn({type: 'timestamp'})
+    @CreateDateColumn({
+        type: 'timestamp'
+    })
     publicated_at?: Date
     
-    @UpdateDateColumn({type: 'timestamp'})
+    @UpdateDateColumn({type: 'timestamp', nullable:true})
     updated_at?: Date
 
     @ManyToOne(()=> User, (user) => user.comments)
