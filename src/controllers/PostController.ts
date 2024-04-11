@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import PostService from "../services/PostService";
 
 
-class BookController {
+class PostController {
 
     private postService = new PostService();
 
@@ -13,4 +13,4 @@ class BookController {
     }
 }
 
-export default BookController;
+export default PostController;
