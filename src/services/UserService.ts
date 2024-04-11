@@ -78,6 +78,7 @@ class UserService {
       {expiresIn: "1h"});
     
       // Assign token to user
+      // Question : dois je enregistrer le token sachant qu'il expire au bout d'une heure ?
       user.token = token;
       this.userRepository.save(user);
       return user;
