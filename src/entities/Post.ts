@@ -1,6 +1,8 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
 import { User } from "./User"
 import { Comment } from "./Comment"
+import { Media } from "./Media"
+import { Author } from "./Author"
 
 @Entity()
 export class Post {
@@ -39,5 +41,13 @@ export class Post {
 
     @ManyToOne(()=> Comment, (comment) => comment.post, {cascade: true})
     comments?: Comment[]
+
+    @ManyToMany(() => Media)
+    @JoinTable()
+    by? : Media
+
+    @ManyToMany(() => Author)
+    @JoinTable()
+    for? : Author
 
 }

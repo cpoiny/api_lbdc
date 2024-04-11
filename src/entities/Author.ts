@@ -1,5 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Post } from "./Post";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Author {
@@ -16,8 +15,5 @@ export class Author {
     @Column()
     picture?: string
 
-    @ManyToMany(() => Post)
-    @JoinTable()
-    posts? : Post[]
 
 }

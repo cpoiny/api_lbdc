@@ -1,6 +1,7 @@
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Post } from "./Post";
 import { Comment } from "./Comment";
+import { Media } from "./Media";
 
 @Entity()
 export class User{
@@ -30,7 +31,11 @@ export class User{
     comments?: Comment[]
     
     @ManyToMany(() => Post)
-    @JoinTable()
-    likes? : Post[]
+    @JoinTable({name: "Likes"})
+    count? : Post[]
+
+    @ManyToMany(() => Media)
+    @JoinTable({name: "Wishlist"})
+    books? : Media[]
 
 }
