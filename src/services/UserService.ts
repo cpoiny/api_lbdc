@@ -7,6 +7,21 @@ class UserService {
 
     private userRepository = AppDataSource.getRepository(User);
 
+    // GET ALL USERS
+    async getAll() {
+        console.log("UserServices - get all");
+        //return AppDataSource.query("SELECT * FROM user;");
+        return this.userRepository.find();
+    }
+
+     // GET USER BY ID
+     async getById(id: number) {
+        console.log("USerService by id");
+    //return AppDataSource.query(`SELECT * FROM user where id = ${id}`);
+    return this.userRepository.findOneBy({id: id});
+    }
+
+    // CREATE USER
     async signup(pseudo: string, email: string, password: string) {
         console.log("UserService");
     
@@ -25,11 +40,8 @@ class UserService {
       }
 
 
-      async getAll() {
-        console.log("UserServices - get all");
-        //return AppDataSource.query("SELECT * FROM user;");
-        return this.userRepository.find();
-    }
+    
+
 }
 
 export default UserService;

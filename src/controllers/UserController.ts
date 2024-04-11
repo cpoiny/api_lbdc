@@ -14,13 +14,25 @@ class UserController {
         res.send({status: "OK", data: users})
     }
 
-  // SIGNUP
-  async signup(req : Request, res : Response) {
-    console.log("UserController- signup");
-    const pseudo = req.body.pseudo;
-    const email = req.body.email;
-    const password = req.body.password;
-    const createUser = await this.userService.signup(pseudo, email, password);
+    // GET USER BY ID
+    async getById(req : Request, res: Response) {
+        console.log("UserController get by id");
+
+        try {
+            const user = await this.userService.getById(Number(req.params.id));
+            res.send({status: "OK", data: user});
+        } catch (error) {
+            res.status(500).send({status : "Error to get user by id", message: error});
+        }
+    }
+
+  // CREATE USER - SIGNUP
+    async signup(req : Request, res : Response) {
+        console.log("UserController- signup");
+        const pseudo = req.body.pseudo;
+        const email = req.body.email;
+        const password = req.body.password;
+        const createUser = await this.userService.signup(pseudo, email, password);
 
     if (createUser) {
         res.status(201).json({ message: "User created" });
