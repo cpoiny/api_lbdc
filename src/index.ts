@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import AppDataSource from './data-source';
 import postRouter from './routes/PostRoutes';
+import userRouter from './routes/UserRoutes';
 
 
 AppDataSource.initialize().then(() => {
@@ -14,6 +15,8 @@ app.use(express.json());
 
 //url de connexion pour les posts
 app.use("/api/posts", postRouter);
+
+app.use("/users", userRouter);
 
 
 app.listen(process.env.PORT, () => {

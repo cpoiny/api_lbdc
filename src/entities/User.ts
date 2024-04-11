@@ -33,7 +33,7 @@ export class User{
         enum: UserRole,
         default: UserRole.USER
     })
-    role?: number
+    role?: string
 
     @OneToMany(() => Post, (post) => post.user, {nullable: true})
     posts?: Post[]
