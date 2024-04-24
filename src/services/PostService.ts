@@ -1,13 +1,20 @@
 import AppDataSource from "../data-source";
+import { Post } from "../entities/Post";
 
 class PostService {
+    private postRepository = AppDataSource.getRepository(Post);
 
     async getAll() {
-        console.log("PostServices");
-        return AppDataSource.query("SELECT * FROM post;");
+        console.log("PostService - get all");
+       // return AppDataSource.query("SELECT * FROM post;");
+        return this.postRepository.find();
     }
 
-  
+    async create(post: Post) {
+        console.log("PostService - create");
+        const newPost = this.postRepository.create(post);
+        return this.postRepository.save(newPost);
+    }
 
 }
 
