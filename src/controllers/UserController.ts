@@ -71,19 +71,14 @@ class UserController {
         const email = req.body.email;
         const password = req.body.password;
         // le service va verifier que email existe et password associé aussi, génére le token et le renvoie
-            const user = await this.userService.login(email, password);
-            if(user) {
-                const token = user!.token
-                // si on a un token on le renvoit
+            const token = await this.userService.login(email, password);
+           
                 if(token) {
                 //important: ici je retourne un objet de type user, si je mets ({user: user}) , je retourne un objet contenant un objet de type user
-                res.status(201).json({user, message: "Connexion sucess"});
+                res.status(201).json({token, message: "Connexion sucess"});
                 } else {
                 res.status(500).json({ message: "You Failed to connect !" });
                 }
-            } else {
-                res.status(500).json({ message: "Error with login - password or user doesn't exist!" });
-            }
         
     }
 }

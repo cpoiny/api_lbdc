@@ -37,7 +37,8 @@ class UserService {
         const newUser = this.userRepository.create({
             pseudo: pseudo,
             email: email, 
-            password: hashedPassword
+            password: hashedPassword,
+            role: "user"
         });
      // Save because create method don't register into database
      return await this.userRepository.save(newUser);
@@ -79,9 +80,9 @@ class UserService {
     
       // Assign token to user
       // Question : dois je enregistrer le token sachant qu'il expire au bout d'une heure ?
-      user.token = token;
+      //user.token = token;
       this.userRepository.save(user);
-      return user;
+      return token;
     }
 }
 

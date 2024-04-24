@@ -25,9 +25,6 @@ export class User{
     @Column()
     password?: string
 
-    @Column({nullable: true})
-    token?: string
-
     @Column({
         type: "enum",
         enum: UserRole,
