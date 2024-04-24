@@ -44,9 +44,9 @@ export class Post {
     @Column({nullable:true})
     quantity_likes?: number
 
-    @ManyToOne(()=> User, (user) => user.id,
-    {nullable: false, cascade: true})
-    user?: User
+    @ManyToOne(()=> User, (user) => user.posts,
+    {nullable: false})
+    user!: User
 
     @ManyToOne(
         ()=> Comment, 

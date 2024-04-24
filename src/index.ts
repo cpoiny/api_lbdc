@@ -14,7 +14,7 @@ app.use(express.json());
 
 
 //url de connexion pour les posts
-app.use("/api/posts", postRouter);
+app.use("/posts", postRouter);
 
 app.use("/users", userRouter);
 
