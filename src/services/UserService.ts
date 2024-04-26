@@ -74,7 +74,7 @@ class UserService {
 
       // Generate token (id, email, secret key and expiration time)
       const token = jwt.sign({
-      id: user.id, email: user.email},
+      id: user.id, email: user.email, role: user.role},
       process.env.JWT_SECRET!, 
       {expiresIn: "1h"});
     
