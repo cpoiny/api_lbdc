@@ -19,8 +19,8 @@ class PostService {
             publicated_at: post.publicated_at,
             user_id: post.user_id,
             is_draft: post.is_draft,
-            // quantity_comments: 0,
-            // quantity_likes: 0,
+            quantity_comments: post.quantity_comments,
+            quantity_likes: post.quantity_likes,
         });
         return this.postRepository.save(newPost);
     }

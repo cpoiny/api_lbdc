@@ -40,7 +40,7 @@ export class User{
     
     @ManyToMany(() => Post, {nullable: true})
     @JoinTable({name: "like"})
-    count? : Post[]
+    like? : Post[]
 
     @ManyToMany(() => Media, {nullable:true})
     @JoinTable({name: "wishlist"})
