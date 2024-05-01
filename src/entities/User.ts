@@ -32,18 +32,18 @@ export class User{
     })
     role?: string
 
-    @OneToMany(() => Post, (post) => post.user, {nullable: true})
+    @OneToMany(() => Post, (post) => post.user_id, {nullable: true})
     posts?: Post[]
     
     @OneToMany(() => Comment, (comment) => comment.user, {nullable:true})
     comments?: Comment[]
     
     @ManyToMany(() => Post, {nullable: true})
-    @JoinTable({name: "Like"})
+    @JoinTable({name: "like"})
     count? : Post[]
 
     @ManyToMany(() => Media, {nullable:true})
-    @JoinTable({name: "Wishlist"})
+    @JoinTable({name: "wishlist"})
     books? : Media[]
 
 }

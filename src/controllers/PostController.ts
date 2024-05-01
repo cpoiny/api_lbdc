@@ -20,6 +20,7 @@ async create(req : Request, res: Response) {
         const post = await this.postService.create(req.body);
         res.send({status: "OK", data: post});
     } catch (error) {
+        console.log("mon erreur", error);
         res.status(500).send({status : "Failed", message: error});
     }
 }

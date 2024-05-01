@@ -12,7 +12,16 @@ class PostService {
 
     async create(post: Post) {
         console.log("PostService - create");
-        const newPost = this.postRepository.create(post);
+        const newPost = this.postRepository.create({
+            title: post.title,
+            content: post.content,
+            picture: post.picture,
+            publicated_at: post.publicated_at,
+            user_id: post.user_id,
+            is_draft: post.is_draft,
+            // quantity_comments: 0,
+            // quantity_likes: 0,
+        });
         return this.postRepository.save(newPost);
     }
 
