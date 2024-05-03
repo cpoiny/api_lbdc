@@ -32,27 +32,14 @@ class UserController {
         console.log("UserController - signup");
         const { pseudo, email, password } = req.body;
 
-        // Define the validation schema for pseudo, email and password
-        const schema = Joi.object({
-            pseudo: Joi.string().alphanum().min(3).max(30).required(),
-            password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
-            email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fr'] } }).required()
-        });
+        try {
+            const createUser = await this.userService.signup(pseudo, email, password);
+            res.status(201).json({ data: createUser, message: "User created" });
+        } catch (error) {
+            res.status(500).json({ message: `Failed to create user ${pseudo}, or user exist` });
+        }
 
-        // Validate the input
-        const { error } = schema.validate({ pseudo, password, email });
-        if (error) {
-            res.status(500).json({ message: `Invalid data for create an account` });
-        }
-        else {
-            try {
-                const createUser = await this.userService.signup(pseudo, email, password);
-                res.status(201).json({ data: createUser, message: "User created" });
-            }  catch (error) {
-                res.status(500).json({ message: `Failed to create user ${pseudo}, or user exist` });
-            }
-        }
-          
+
     }
 
     // UPDATE USER
@@ -79,22 +66,20 @@ class UserController {
         }
     }
 
-    // CONNEXION - AUTHENTICATION
+    // ok - CONNEXION - AUTHENTICATION
     async login(req: Request, res: Response) {
         console.log("UserController-login")
-        const email = req.body.email;
-        const password = req.body.password;
+
         // le service va verifier que email existe et password associé aussi, génére le token et le renvoie
-        const token = await this.userService.login(email, password);
+        const { email, password } = req.body;
+                 try {
+                const token = await this.userService.login(email, password);
+                res.status(201).json({ token, message: "Connexion sucess" });
+            } catch {
+                res.status(500).json({ message: `Failed to login` });
+            }
 
-        if (token) {
-            //important: ici je retourne un objet de type user, si je mets ({user: user}) , je retourne un objet contenant un objet de type user
-            res.status(201).json({ token, message: "Connexion sucess" });
-        } else {
-            res.status(500).json({ message: "You Failed to connect !" });
         }
-
-    }
 }
 
 export default UserController;

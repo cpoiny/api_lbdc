@@ -1,5 +1,7 @@
 import { Router } from "express";
 import UserController from "../controllers/UserController";
+import checkDataForCreation from "../middlewares/CheckDataForCreation";
+import checkDataForLogin from "../middlewares/CheckDataForLogin";
 
 const userRouter = Router();
 const userController = new UserController();
@@ -18,7 +20,7 @@ userRouter.get("/:id", (req, res) => {
 
 
 // POST - CREATE USER - SIGNUP
-userRouter.post("/signup", (req, res) => {
+userRouter.post("/signup", checkDataForCreation, (req, res) => {
     console.log("UserRouter - create signup");
    userController.signup(req,res);
 });
@@ -36,7 +38,7 @@ userRouter.delete("/:id", (req, res) => {
 });
 
 // POST - LOGIN - AUTHENTICATION
-userRouter.post("/login", (req, res) => {
+userRouter.post("/login", checkDataForLogin, (req, res) => {
     console.log("UserRouter - login");
     userController.login(req, res);
   })

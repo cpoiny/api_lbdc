@@ -47,7 +47,7 @@ class UserService {
       }
     }
 
-    
+
     // UPDATE USER
     async updateUser(id: number, user: User) {
         console.log("UserService - Update");
@@ -61,18 +61,18 @@ class UserService {
         return this.userRepository.delete(id);
     }
 
-    // CONNEXION - AUTHENTICATION - LOGIN
+    // ok - CONNEXION - AUTHENTICATION - LOGIN
     async login(email: string, password: string) {
       // Check if user exists
       const user = await this.userRepository.findOneBy({email: email});
       if(!user) {
-        return null
+         throw new Error('User doesnt exists');
       }
     
       // Check the password
       const isPasswordValid = await bcrypt.compare(password, user.password!);
       if(!isPasswordValid) {
-        return null
+        throw new Error('Invalid password');
       }
 
       // Generate token (id, email, secret key and expiration time)
@@ -81,8 +81,6 @@ class UserService {
       process.env.JWT_SECRET!, 
       {expiresIn: "1h"});
     
-      // Assign token to user
-      this.userRepository.save(user);
       return token;
     }
 }
