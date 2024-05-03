@@ -7,28 +7,30 @@ class UserService {
 
     private userRepository = AppDataSource.getRepository(User);
 
-    // GET ALL USERS
+    // ok - GET ALL USERS
     async getAllUsers() {
         console.log("UserService - Get all");
-        return this.userRepository.find();
+        return await this.userRepository.find();
     }
 
-     // GET USER BY ID
+     // ok - GET USER BY ID
     async getUserById(id: number) {
-        console.log("UserService - Get by id");
-        return this.userRepository.findOneBy({id: id});
+      console.log("UserService - Get by id");
+      const user  = await this.userRepository.findOneBy({id: id});
+      if(!user){
+        throw new Error('User not found');
+      } else {
+        return user;
+      }
     }
 
-    // CREATE USER
+    // ok - CREATE USER
     async signup(pseudo: string, email: string, password: string) {
         console.log("UserService - Create");
         // Check if user already exists (email and password)
         const user = await this.userRepository.findOneBy({email: email});
         if(user) {
-            const isPasswordValid = await bcrypt.compare(password, user.password!);       
-            if(isPasswordValid) {
-                return null
-            }
+          throw new Error('User already exists');
         } else {
         
         // Check done, create user
@@ -45,6 +47,7 @@ class UserService {
       }
     }
 
+    
     // UPDATE USER
     async updateUser(id: number, user: User) {
         console.log("UserService - Update");
@@ -79,8 +82,6 @@ class UserService {
       {expiresIn: "1h"});
     
       // Assign token to user
-      // Question : dois je enregistrer le token sachant qu'il expire au bout d'une heure ?
-      //user.token = token;
       this.userRepository.save(user);
       return token;
     }
