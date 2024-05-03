@@ -26,7 +26,7 @@ class AuthorService {
     async create(author: Author) {
         console.log("AuthorService - create");
         const existingAuthor = await this.authorRepository.findOneBy({ name: author.name });
-        if (existingAuthor){
+        if (existingAuthor) {
             throw new Error('Author already exists');
         }
         const newAuthor = this.authorRepository.create(author);

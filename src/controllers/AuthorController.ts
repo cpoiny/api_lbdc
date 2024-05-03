@@ -33,25 +33,25 @@ class AuthorController {
             const author = await this.authorService.create(req.body);
             res.send({ status: "OK", data: author });
         } catch (error: unknown) {
-            let  errorMessage = (error as Error).message
+            let errorMessage = (error as Error).message
             res.status(500).send({ status: "Failed", message: errorMessage });
         }
     }
 
-     //ok - UPDATE USER
-     async updateAuthor(req: Request, res: Response) {
+    //ok - UPDATE USER
+    async updateAuthor(req: Request, res: Response) {
         console.log("AuthorController - update");
 
         try {
             await this.authorService.updateAuthor(Number(req.params.id), req.body);
             res.send({ status: 200, message: "Success to update author" });
         } catch (error: unknown) {
-           let  errorMessage = (error as Error).message
-            res.status(500).send({ status: 500 , message: `Failed to update author because ${errorMessage}`  });
+            let errorMessage = (error as Error).message
+            res.status(500).send({ status: 500, message: `Failed to update author because ${errorMessage}` });
         }
     }
 
- // OK DELETE AUTHOR
+    // OK DELETE AUTHOR
     async deleteAuthor(req: Request, res: Response) {
         console.log("USerController - delete");
 
@@ -59,7 +59,7 @@ class AuthorController {
             await this.authorService.deleteAuthor(Number(req.params.id));
             res.send({ status: "OK", message: `Sucess to delete author!` });
         } catch (error) {
-            res.status(500).send({ status: 500, message: `Failed to delete author or author doesn't found!`});
+            res.status(500).send({ status: 500, message: `Failed to delete author or author doesn't found!` });
         }
     }
 }
