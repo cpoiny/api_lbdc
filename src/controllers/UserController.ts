@@ -54,15 +54,15 @@ class UserController {
         }
     }
 
-    // DELETE USER
+    // ok - DELETE USER
     async deleteUser(req: Request, res: Response) {
         console.log("USerController - delete");
 
         try {
-            const user = await this.userService.deleteUser(Number(req.params.id));
-            res.send({ status: "OK", data: user });
+            await this.userService.deleteUser(Number(req.params.id));
+            res.send({ status: "OK", message: `Sucess to delete user!` });
         } catch (error) {
-            res.status(500).send({ status: "Failed to delete user", message: error });
+            res.status(500).send({ status: 500, message: `Failed to delete user or user doesn't found!`});
         }
     }
 

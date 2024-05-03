@@ -26,7 +26,7 @@ userRouter.post("/signup", checkDataForCreation, (req, res) => {
 });
 
 // PUT - UPDATE USER
-userRouter.put("/:id", (req, res) => {
+userRouter.put("/:id", checkDataForCreation, (req, res) => {
     console.log("UserRouter - update");
     userController.updateUser(req,res);
 });

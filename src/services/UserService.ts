@@ -55,10 +55,15 @@ class UserService {
       }
 
 
-    // DELETE USER
+    // ok - DELETE USER
     async deleteUser(id: number) {
+        const user  = await this.userRepository.findOneBy({id: id});
         console.log("UserService - Delete");
-        return this.userRepository.delete(id);
+        if(!user){
+          throw new Error('User not found');
+        } else {
+          return this.userRepository.delete(id);
+        }
     }
 
     // ok - CONNEXION - AUTHENTICATION - LOGIN

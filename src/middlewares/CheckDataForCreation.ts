@@ -3,8 +3,8 @@ import { NextFunction, Request, Response } from "express";
 
 
 const checkDataForCreation = (req: Request, res: Response, next: NextFunction) => {
-    console.log("checkLoginPassword");
-    const { pseudo, email, password } = req.body;
+    console.log("checkDataForCreation");
+    const { pseudo, email, password } = req.body || {};
 
     const schema = Joi.object({
         pseudo: Joi.string().alphanum().min(3).max(30).required(),
@@ -21,3 +21,4 @@ const checkDataForCreation = (req: Request, res: Response, next: NextFunction) =
 }
 
 export default checkDataForCreation;
+
