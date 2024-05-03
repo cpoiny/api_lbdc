@@ -1,5 +1,6 @@
 import { Router } from "express";
 import AuthorController from "../controllers/AuthorController";
+import checkToken from "../middlewares/CheckToken";
 
 const authorRouter = Router();
 const authorController = new AuthorController();
@@ -18,19 +19,19 @@ authorRouter.get("/:id", (req, res) => {
 
 
 // ok - ajouter le checkToken pour le update, delete des author et aussi pour author et media
-authorRouter.post("/ajouter", (req, res) => {
+authorRouter.post("/ajouter", checkToken, (req, res) => {
     console.log("AuthorRouter create");
     authorController.create(req,res);
 });
 
 // ok - PUT - UPDATE AUTHOR
-authorRouter.put("/:id", (req, res) => {
+authorRouter.put("/:id", checkToken, (req, res) => {
     console.log("UserRouter - update");
     authorController.updateAuthor(req,res);
 });
 
 // ok - DELETE - AUTHOR
-authorRouter.delete("/:id", (req, res) => {
+authorRouter.delete("/:id", checkToken, (req, res) => {
     console.log("authorRouter - delete");
     authorController.deleteAuthor(req,res);
 });

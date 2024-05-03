@@ -20,7 +20,8 @@ const checkToken = (req: Request, res: Response, next: NextFunction) => {
     try {
         jwt.verify(tokenVerify, process.env.JWT_SECRET as string);
     } catch (error) {
-        return res.status(401).json ({message : "Authorized"})
+        console.log("error check token", error);
+        return res.status(401).json ({message : "Authorized , invalid token"})
     }
     next();
 }
