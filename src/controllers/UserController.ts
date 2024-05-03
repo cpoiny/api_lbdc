@@ -1,8 +1,5 @@
 import { Request, Response } from "express";
 import UserService from "../services/UserService";
-import Joi from "joi";
-
-
 
 class UserController {
 
@@ -49,9 +46,9 @@ class UserController {
         try {
             await this.userService.updateUser(Number(req.params.id), req.body);
             res.send({ status: 200, message: "Success to update user" });
-        } catch (error) {
-            console.log("error", error);
-            res.status(500).send({ status: 500 , message: "Failed to update user", error: error });
+        } catch (error: unknown) {
+           let  errorMessage = (error as Error).message
+            res.status(500).send({ status: 500 , message: `Failed to update user because ${errorMessage}`  });
         }
     }
 
