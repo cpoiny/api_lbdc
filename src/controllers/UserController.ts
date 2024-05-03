@@ -33,8 +33,8 @@ class UserController {
         const { pseudo, email, password } = req.body;
 
         try {
-            const createUser = await this.userService.signup(pseudo, email, password);
-            res.status(201).json({ data: createUser, message: "User created" });
+            const createdUser = await this.userService.signup(pseudo, email, password);
+            res.status(201).json({ data: createdUser, message: "User created" });
         } catch (error) {
             res.status(500).json({ message: `Failed to create user ${pseudo}, or user exist` });
         }
@@ -42,15 +42,16 @@ class UserController {
 
     }
 
-    // UPDATE USER
+    //ok - UPDATE USER
     async updateUser(req: Request, res: Response) {
         console.log("UserController - update");
 
         try {
-            const user = await this.userService.updateUser(Number(req.params.id), req.body);
-            res.send({ status: "OK", data: user });
+            await this.userService.updateUser(Number(req.params.id), req.body);
+            res.send({ status: 200, message: "Success to update user" });
         } catch (error) {
-            res.status(500).send({ status: "Failed to update user", message: error });
+            console.log("error", error);
+            res.status(500).send({ status: 500 , message: "Failed to update user", error: error });
         }
     }
 
@@ -74,9 +75,9 @@ class UserController {
         const { email, password } = req.body;
                  try {
                 const token = await this.userService.login(email, password);
-                res.status(201).json({ token, message: "Connexion sucess" });
+                res.status(201).json({ token, message: "Connexion sucessful" });
             } catch {
-                res.status(500).json({ message: `Failed to login` });
+                res.status(500).json({ message: `Failed to login!` });
             }
 
         }
