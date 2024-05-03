@@ -3,6 +3,7 @@ import cors from 'cors';
 import AppDataSource from './data-source';
 import postRouter from './routes/PostRoutes';
 import userRouter from './routes/UserRoutes';
+import authorRouter from './routes/AuthorRoutes';
 
 
 AppDataSource.initialize().then(() => {
@@ -17,6 +18,8 @@ app.use(express.json());
 app.use("/posts", postRouter);
 
 app.use("/users", userRouter);
+
+app.use("/authors", authorRouter);
 
 
 app.listen(process.env.PORT, () => {

@@ -11,7 +11,7 @@ postRouter.get("/", (req, res) => {
 });
 
 // ajouter le checkToken pour le update, delete des post et aussi pour author et media
-postRouter.post("/ajouter", checkToken, (req, res) => {
+postRouter.post("/ajouter", (req, res) => {
     console.log("PlantRouter create");
     postController.create(req,res);
 });
