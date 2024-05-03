@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
 import { User } from "./User"
 import { Comment } from "./Comment"
 import { Media } from "./Media"
@@ -10,29 +10,19 @@ export class Post {
     @PrimaryGeneratedColumn()
     id?: number
 
-    @Column({
-        length:100
-    })
+    @Column({length:100})
     title?: string
     
-    @Column(
-        "text"
-    )
+    @Column("text")
     content?: string
     
-    @Column({
-        length:100
-    })
+    @Column({length:100})
     picture?: string
     
-    @CreateDateColumn(
-        {type: 'timestamp'}
-    )
+    @CreateDateColumn({type: 'timestamp'})
     publicated_at?: Date
     
-    @UpdateDateColumn(
-        {type: 'timestamp', nullable: true}
-    )
+    @UpdateDateColumn({type: 'timestamp', nullable: true})
     updated_at?: Date
     
     @Column()
@@ -46,21 +36,21 @@ export class Post {
 
     @ManyToOne(()=> User, (user) => user.posts,
     {nullable: false})
-    user!: User
+    @JoinColumn({ name: "user_id"})
+    user_id!: User['id']
 
-    @ManyToOne(
-        ()=> Comment, 
+    @OneToMany(()=> Comment, 
         (comment) => comment.post, {nullable:true}
     )
     comments?: Comment[]
 
     // Si le media est delete, update alors le post aussi
     @ManyToMany(() => Media, {onDelete: "CASCADE", onUpdate: "CASCADE"})
-    @JoinTable({name : "Post_media"})
+    @JoinTable({name : "post_media"})
     media? : Media
 
     @ManyToMany(() => Author)
-    @JoinTable({name : "Post_author"})
+    @JoinTable({name : "post_author"})
     author? : Author
 
 }
