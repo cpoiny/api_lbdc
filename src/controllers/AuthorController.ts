@@ -45,8 +45,8 @@ class AuthorController {
     async updateAuthor(req: Request, res: Response) {
         console.log("AuthorController - update");
         try {
-            await this.authorService.updateAuthor(Number(req.params.id), req.body);
-            res.send({ status: 200, message: "Success to update author" });
+            const updateAuthor = await this.authorService.updateAuthor(Number(req.params.id), req.body);
+            res.send({ status: 200, author: updateAuthor, message: "Success to update author" });
         } catch (error: unknown) {
             let errorMessage = (error as Error).message
             res.status(500).send({ status: 500, message: `Failed to update author because ${errorMessage}` });
