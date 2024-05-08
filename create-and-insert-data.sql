@@ -262,28 +262,25 @@ INSERT INTO post (id, title, content, picture, publicated_at,is_draft, user_id, 
         11
     );
 
-INSERT INTO media (title, category, theme, publicated_at, edition, author_id) VALUES
+INSERT INTO media (title, category, theme, edition, author_id) VALUES
     (
         'Le café suspendu',
         'book',
-        'classique',
-        '2022-06-18',
+        'Classique',
         'Editions Grasset',
         1
     ),
     (
         'Le dernier été en ville',
         'book',
-        'classique',
-        '2022-05-01',
-        ' Editions Gallimard',
+        'Classique',
+        'Editions Gallimard',
         2
     ),
     (
         'Vivre libre',
         'book',
         'Aventure',
-        '2021-07-27',
         'Editions Points',
         3
     ),
@@ -291,7 +288,6 @@ INSERT INTO media (title, category, theme, publicated_at, edition, author_id) VA
         'L''ecume des jours',
         'book',
         'classique',
-        '2020-09-30',
         'Editions 1018',
        4
     ),
@@ -299,7 +295,6 @@ INSERT INTO media (title, category, theme, publicated_at, edition, author_id) VA
         'Tendre est la nuit',
         'book',
         'classique',
-        '2020-09-17',
         'Livre de poche',
         5
     ),
@@ -307,7 +302,6 @@ INSERT INTO media (title, category, theme, publicated_at, edition, author_id) VA
         'La vie devant soi',
         'book',
         'classique',
-        '2020-12-13',
         'Editions Folio',
         6
     ),
@@ -315,7 +309,6 @@ INSERT INTO media (title, category, theme, publicated_at, edition, author_id) VA
         'Sur la route',
         'book',
         'classique',
-        '2021-01-09',
         'Editions Folio',
         7
     ),
@@ -323,7 +316,6 @@ INSERT INTO media (title, category, theme, publicated_at, edition, author_id) VA
         'Fight club',
         'book',
         'classique',
-        '2021-02-08',
         'Editions Folio',
         8
     ),
@@ -331,7 +323,6 @@ INSERT INTO media (title, category, theme, publicated_at, edition, author_id) VA
         'Les yeux noirs existent',
         'book',
         'classique',
-        '2022-12-29',
         'Edition libre',
         9
     ),
@@ -339,7 +330,6 @@ INSERT INTO media (title, category, theme, publicated_at, edition, author_id) VA
         'La constellation',
         'book',
         'poesie',
-        '2023-05-01',
         'Editions Grasset',
         10
     ),
@@ -347,7 +337,6 @@ INSERT INTO media (title, category, theme, publicated_at, edition, author_id) VA
         'L''amant',
         'book',
         'classique',
-        '2022-11-28',
         'Editions de minuit',
         11
     ),
@@ -355,7 +344,6 @@ INSERT INTO media (title, category, theme, publicated_at, edition, author_id) VA
         'Test',
         'movie',
         'action',
-        '2022-11-28',
         'movie film',
         11
     );

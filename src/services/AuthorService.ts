@@ -7,8 +7,11 @@ class AuthorService {
     // ok - GET ALL
     async getAll() {
         console.log("AuthorService - get all");
-        // return AppDataSource.query("SELECT * FROM author;");
-        return this.authorRepository.find();
+        const authors = await this.authorRepository.find();
+        if (authors.length === 0) {
+          throw new Error('No authors found');
+        }
+        return authors;
     }
 
     // ok - GET BY ID

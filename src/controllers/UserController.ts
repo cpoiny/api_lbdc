@@ -8,8 +8,13 @@ class UserController {
     //ok - GET ALL USERS
     async getAllUsers(req: Request, res: Response) {
         console.log("UserController - get all");
-        const users = await this.userService.getAllUsers();
-        res.send({ status: "OK", data: users })
+        try {
+            const users = await this.userService.getAllUsers();
+            res.send({ status: "OK", data: users })
+        } catch (error: unknown) {
+            let errorMessage = (error as Error).message;
+            res.status(500).send({ status: 500, message: `Failed to get users because ${errorMessage}` });
+        }
     }
 
     //ok - GET USER BY ID
@@ -47,8 +52,8 @@ class UserController {
             await this.userService.updateUser(Number(req.params.id), req.body);
             res.send({ status: 200, message: "Success to update user" });
         } catch (error: unknown) {
-           let  errorMessage = (error as Error).message
-            res.status(500).send({ status: 500 , message: `Failed to update user because ${errorMessage}`  });
+            let errorMessage = (error as Error).message
+            res.status(500).send({ status: 500, message: `Failed to update user because ${errorMessage}` });
         }
     }
 
@@ -60,24 +65,34 @@ class UserController {
             await this.userService.deleteUser(Number(req.params.id));
             res.send({ status: "OK", message: `Sucess to delete user!` });
         } catch (error) {
-            res.status(500).send({ status: 500, message: `Failed to delete user or user doesn't found!`});
+            res.status(500).send({ status: 500, message: `Failed to delete user or user doesn't found!` });
         }
     }
 
     // ok - CONNEXION - AUTHENTICATION
-    async login(req: Request, res: Response) {
+    async loginAdmin(req: Request, res: Response) {
         console.log("UserController-login")
-
-        // le service va verifier que email existe et password associé aussi, génére le token et le renvoie
         const { email, password } = req.body;
-                 try {
-                const token = await this.userService.login(email, password);
-                res.status(201).json({ token, message: "Connexion sucessful" });
-            } catch {
-                res.status(500).json({ message: `Failed to login!` });
-            }
-
+        try {
+            const token = await this.userService.loginAdmin(email, password);
+            res.status(201).json({ token, message: "Connexion sucessful" });
+        } catch (error: unknown){
+            res.status(500).json({ message: `Failed to login because ${(error as Error).message}!` });
         }
+
+    }
+
+    async loginUser(req: Request, res: Response) {
+        console.log("UserController-login user")
+        const { email, password } = req.body;
+        try {
+            const token = await this.userService.loginUser(email, password);
+            res.status(201).json({ token, message: "Connexion sucessful" });
+        } catch (error: unknown){
+            res.status(500).json({ message: `Failed to login because ${(error as Error).message}!` });
+        }
+
+    }
 }
 
 export default UserController;

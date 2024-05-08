@@ -40,7 +40,12 @@ userRouter.delete("/:id", (req, res) => {
 // POST - LOGIN - AUTHENTICATION
 userRouter.post("/login", checkDataForLogin, (req, res) => {
     console.log("UserRouter - login");
-    userController.login(req, res);
+    userController.loginAdmin(req, res);
+})
+
+userRouter.post("/connexion", checkDataForLogin, (req, res) => {
+    console.log("UserRouter - connexion user");
+    userController.loginUser(req, res);
 })
 
 
