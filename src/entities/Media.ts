@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Author } from "./Author";
 
 
@@ -20,9 +20,9 @@ export class Media {
     @Column()
     edition?: string
 
-    @OneToOne(()=> Author)
-    @JoinColumn()
-    author?: Author
+    @ManyToOne(()=> Author, author => author.media)
+    @JoinColumn({ name: "author_id"})
+    author_id!: Author['id']
 
 
 }

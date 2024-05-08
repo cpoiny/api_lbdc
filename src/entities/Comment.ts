@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { User } from "./User";
 import { Post } from "./Post";
 
@@ -16,12 +16,14 @@ export class Comment {
     })
     publicated_at?: Date
     
-    @UpdateDateColumn({type: 'timestamp', nullable:true})
+    @UpdateDateColumn({type: 'timestamp', nullable: true})
     updated_at?: Date
 
-    @ManyToOne(()=> User, (user) => user.comments)
-    user?: User
+    @ManyToOne(()=> User, (user) => user.comments,{nullable: false})
+    @JoinColumn({ name: "user_id"})
+    user_id!: User['id']
 
     @ManyToOne(()=> Post, (post) => post.comments)
-    post?: Post
+    @JoinColumn({ name: "post_id"})
+    post_id!: Post['id']
 }
