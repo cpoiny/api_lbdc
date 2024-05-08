@@ -14,8 +14,8 @@ export class PostDTO {
     quantity_comments!: number;
     quantity_likes!: number;
     comments!: CommentDTO[];
-    media!: MediaDTO[];
-    author!: AuthorDTO[];
+    media!: MediaDTO;
+    author!: AuthorDTO;
     user_id!: number;
 
 }
