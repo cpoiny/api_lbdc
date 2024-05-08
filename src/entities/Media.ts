@@ -21,8 +21,8 @@ export class Media {
     edition?: string
 
     @OneToOne(()=> Author)
-    @JoinColumn()
-    author?: Author
+    @JoinColumn({ name: "author_id"})
+    author_id!: Author['id']
 
 
 }
