@@ -10,7 +10,11 @@ class UserService {
   // ok - GET ALL USERS
   async getAllUsers() {
     console.log("UserService - Get all");
-    return await this.userRepository.find();
+    const users = await this.userRepository.find();
+    if (users.length === 0) {
+      throw new Error('No users found');
+    }
+    return users;
   }
 
   // ok - GET USER BY ID
@@ -58,8 +62,8 @@ class UserService {
       if (isEmailUnique) {
         const hashedPassword = await bcrypt.hash(password!, 10);
         user.password = hashedPassword;
-      } 
-            return this.userRepository.update(id, user);
+      }
+      return this.userRepository.update(id, user);
     } else {
       throw new Error(`User doesn't exist`);
     }
@@ -77,13 +81,15 @@ class UserService {
   }
 
   // ok - CONNEXION - AUTHENTICATION - LOGIN
-  async login(email: string, password: string) {
+  async loginAdmin(email: string, password: string) {
     // Check if user exists
     const user = await this.userRepository.findOneBy({ email: email });
     if (!user) {
       throw new Error('User doesnt exists');
     }
-
+    if (user.role !== "admin") {
+      throw new Error('User doesnt have admin role');
+    }
     // Check the password
     const isPasswordValid = await bcrypt.compare(password, user.password!);
     if (!isPasswordValid) {
@@ -102,19 +108,19 @@ class UserService {
 
   // ok - Check if new email is unique
   async checkIfEmailExist(newEmail: string, id: number) {
-   
+
     const existingUser = await this.userRepository.findOneBy({ email: newEmail });
     // Email used by the same user
     if (existingUser?.id === id) {
       return true;
-    // Email not used
+      // Email not used
     } else if (!existingUser) {
       return true;
-    // Email used by another user
+      // Email used by another user
     } else {
       throw new Error("Email already used !");
+    }
   }
-}
 
 }
 
