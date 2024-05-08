@@ -58,8 +58,8 @@ class UserService {
       if (isEmailUnique) {
         const hashedPassword = await bcrypt.hash(password!, 10);
         user.password = hashedPassword;
-      }
-      return this.userRepository.update(id, user);
+      } 
+            return this.userRepository.update(id, user);
     } else {
       throw new Error(`User doesn't exist`);
     }
@@ -100,16 +100,22 @@ class UserService {
     return token;
   }
 
-  // ok - Check that 2 users can't have the same email
-  async checkIfEmailExist(email: string, id: number) {
-    const existingUser = await this.userRepository.findOneBy({ email: email });
+  // ok - Check if new email is unique
+  async checkIfEmailExist(newEmail: string, id: number) {
+   
+    const existingUser = await this.userRepository.findOneBy({ email: newEmail });
+    // Email used by the same user
     if (existingUser?.id === id) {
       return true;
+    // Email not used
+    } else if (!existingUser) {
+      return true;
+    // Email used by another user
     } else {
       throw new Error("Email already used !");
-
-    }
   }
+}
+
 }
 
 export default UserService;

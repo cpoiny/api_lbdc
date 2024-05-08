@@ -55,7 +55,7 @@ CREATE TABLE media (
 CREATE TABLE "comment"  (
   id SERIAL PRIMARY key,
   comment TEXT NOT NULL,
-  created_at DATE not NULL,
+  publicated_at DATE not NULL,
   updated_at DATE null,
   user_id INT NOT NULL ,
   post_id INT NOT NULL,
@@ -262,7 +262,7 @@ INSERT INTO post (id, title, content, picture, publicated_at,is_draft, user_id, 
         11
     );
 
-INSERT INTO media (title, category, theme, created_at, edition, author_id) VALUES
+INSERT INTO media (title, category, theme, publicated_at, edition, author_id) VALUES
     (
         'Le café suspendu',
         'book',

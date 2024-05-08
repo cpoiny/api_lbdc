@@ -16,7 +16,7 @@ export class Comment {
     })
     publicated_at?: Date
     
-    @UpdateDateColumn({type: 'timestamp', nullable:true})
+    @UpdateDateColumn({type: 'timestamp', nullable: true})
     updated_at?: Date
 
     @ManyToOne(()=> User, (user) => user.comments,{nullable: false})
