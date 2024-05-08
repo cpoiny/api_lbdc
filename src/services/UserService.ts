@@ -105,6 +105,31 @@ class UserService {
 
     return token;
   }
+  
+  async loginUser(email: string, password: string) {
+    // Check if user exists
+    const user = await this.userRepository.findOneBy({ email: email });
+    if (!user) {
+      throw new Error('User doesnt exists');
+    }
+    if (user.role !== "user") {
+      throw new Error('User doesnt have user role');
+    }
+    // Check the password
+    const isPasswordValid = await bcrypt.compare(password, user.password!);
+    if (!isPasswordValid) {
+      throw new Error('Invalid password');
+    }
+
+    // Generate token (id, email, secret key and expiration time)
+    const token = jwt.sign({
+      id: user.id, email: user.email, role: user.role
+    },
+      process.env.JWT_SECRET!,
+      { expiresIn: "1h" });
+
+    return token;
+  }
 
   // ok - Check if new email is unique
   async checkIfEmailExist(newEmail: string, id: number) {

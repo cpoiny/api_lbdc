@@ -81,6 +81,18 @@ class UserController {
         }
 
     }
+
+    async loginUser(req: Request, res: Response) {
+        console.log("UserController-login user")
+        const { email, password } = req.body;
+        try {
+            const token = await this.userService.loginUser(email, password);
+            res.status(201).json({ token, message: "Connexion sucessful" });
+        } catch (error: unknown){
+            res.status(500).json({ message: `Failed to login because ${(error as Error).message}!` });
+        }
+
+    }
 }
 
 export default UserController;

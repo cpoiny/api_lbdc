@@ -1,6 +1,5 @@
-import { AuthorDTO } from "./author.dto";
 import { CommentDTO } from "./comment.dto";
-import { MediaDTO } from "./media.dto";
+
 
 export class PostDTO {
     id!: number;
@@ -13,7 +12,8 @@ export class PostDTO {
     quantity_comments!: number;
     quantity_likes!: number;
     comments!: CommentDTO[];
-    media!: MediaDTO[];
-    author!: AuthorDTO[];
+    media!: string;
+    author!: string;
+    user_id!: number;
 
 }

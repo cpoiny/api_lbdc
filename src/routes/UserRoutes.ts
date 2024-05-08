@@ -43,5 +43,10 @@ userRouter.post("/login", checkDataForLogin, (req, res) => {
     userController.loginAdmin(req, res);
 })
 
+userRouter.post("/connexion", checkDataForLogin, (req, res) => {
+    console.log("UserRouter - connexion user");
+    userController.loginUser(req, res);
+})
+
 
 export default userRouter;

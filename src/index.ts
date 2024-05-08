@@ -15,7 +15,7 @@ AppDataSource.initialize().then(() => {
     app.use(express.json());
 
 
-    //url de connexion pour les posts
+    //urls de connexion à la base de données
     app.use("/posts", postRouter);
 
     app.use("/users", userRouter);

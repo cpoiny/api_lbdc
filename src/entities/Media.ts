@@ -17,7 +17,7 @@ export class Media {
     @Column()
     theme?: string
 
-    @Column()
+    @Column({nullable: true})
     edition?: string
 
     @ManyToOne(()=> Author, author => author.media)
