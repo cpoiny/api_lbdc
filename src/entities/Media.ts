@@ -25,6 +25,6 @@ export class Media {
     @JoinColumn({ name: "author_id"})
     author_id!: Author['id']
 
-    @ManyToMany(() => Post, post => post.authors)
+    @ManyToMany(() => Post, post => post.medias)
     posts?: Post[];
 }

@@ -3,12 +3,15 @@ import { Author } from "../entities/Author";
 import { Media } from "../entities/Media";
 import { Post } from "../entities/Post";
 import { PostDTO } from "../modelsDTO/post.dto";
+import AuthorService from "./AuthorService";
+import MediaService from "./MediaService";
 
 class PostService {
     private postRepository = AppDataSource.getRepository(Post);
     private authorRepository = AppDataSource.getRepository(Author);
     private mediaRepository = AppDataSource.getRepository(Media);
-
+    private authorService = new AuthorService();
+    private mediaService = new MediaService();
     async getAll() {
         console.log("PostService - get all");
         return this.postRepository.find();
@@ -37,25 +40,24 @@ class PostService {
 
         // 3 - l'auteur n'existe pas, je le crée et je le lie au post
         if (author === null) {
-            const newAuthor = this.authorRepository.create(post.author);
+            const newAuthor = await this.authorService.create(post.author);
 
             // 4- je crée un média (car un média existe uniquement si un auteur et un post existent)
             const newMedia = new Media();
             // je recupère les données du post recu en entrée
-            newMedia.title = post.media.title;
-            // je recupère les données du post recu en entrée
-            newMedia.category = post.media.category;
-            // je recupère les données du post recu en entrée
-            newMedia.theme = post.media.theme;
+            newMedia.title = post.media?.title;
+            newMedia.category = post.media?.category;
+            newMedia.theme = post.media?.theme;
+            newMedia.edition = post.media?.edition;
             // je recupère l'auteur id de l'auteur que je viens de créer
             newMedia.author_id = newAuthor.id!;
 
             //5 - je créé le média dans la base de données
-            this.mediaRepository.create(newMedia);
+            const newMediaToSave = await this.mediaService.create(newMedia);
 
             // 6- je lie l'auteur et le média au post
             newPost.authors = [newAuthor];
-            newPost.media = [newMedia];
+            newPost.medias = [newMediaToSave];
 
             // 7 - l'auteur existe déja
         } else {
@@ -67,31 +69,33 @@ class PostService {
             if (isAuthorUpdated) {
                 const updatedAuthor = await this.authorRepository.findOneBy({ id: author.id });
                 // je recupére le média de l'auteur
-                const media = await this.mediaRepository.findOneBy({ title: post.media.title });
+                const media = await this.mediaRepository.findOneBy({ title: post.media?.title });
 
                 if(media === null) {
 
                     // TODO : probleme ici, verifier pourquoi le média ne se crée pas
                     const newMedia = new Media();
-                    newMedia.title = post.media.title;
-                    newMedia.category = post.media.category;
-                    newMedia.theme = post.media.theme;
+                    newMedia.title = post.media?.title;
+                    newMedia.category = post.media?.category;
+                    newMedia.theme = post.media?.theme;
                     newMedia.author_id = updatedAuthor!.id!;
-                    this.mediaRepository.create(newMedia);
+                    const newMediaToSave = await this.mediaService.create(newMedia);
+        
                     
                     newPost.authors = [updatedAuthor!];
-                    newPost.media = [newMedia];
+                    newPost.medias = [newMediaToSave];
                 } else {
                     // liaison de l'auteur au post
                     newPost.authors = [updatedAuthor!];
                     // liaison du média au post
-                    newPost.media = [media!];
+                    newPost.medias = [media!];
                 }
 
                 }
         }
         // 8 - je crée le post dans la base de données
-        return await this.postRepository.save(newPost);
+        const newPostToSave = this.postRepository.create(newPost);
+        return await this.postRepository.save(newPostToSave);
     }
 
 }
