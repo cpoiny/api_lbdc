@@ -36,7 +36,7 @@ class UserController {
 
         try {
             const createdUser = await this.userService.signup(pseudo, email, password);
-            res.status(201).json({ data: createdUser, message: "User created" });
+            res.status(201).json({ message: "User created" });
         } catch (error) {
             res.status(500).json({ message: `Failed to create user ${pseudo}, or user exist` });
         }

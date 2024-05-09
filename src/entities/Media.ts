@@ -21,7 +21,7 @@ export class Media {
     @Column({nullable: true})
     edition?: string
 
-    @ManyToOne(()=> Author, author => author.media)
+    @ManyToOne(()=> Author, author => author.media, {onDelete: "CASCADE", onUpdate: "CASCADE"})
     @JoinColumn({ name: "author_id"})
     author_id!: Author['id']
 
