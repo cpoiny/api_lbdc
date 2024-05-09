@@ -2,9 +2,10 @@ import AppDataSource from "../data-source";
 import { Author } from "../entities/Author";
 import { Media } from "../entities/Media";
 import { Post } from "../entities/Post";
-import { AuthorAndMediaDTO } from "../modelsDTO/AuthorAndMedia.dto";
+import { AuthorAndMediaDTO } from "../modelsDTO/authorAndMedia.dto";
 import { MediaDTO } from "../modelsDTO/media.dto";
 import { PostDTO } from "../modelsDTO/post.dto";
+import { PostApiResponseDTO } from "../modelsDTO/postApiResponse.dto";
 import AuthorService from "./AuthorService";
 import MediaService from "./MediaService";
 
@@ -15,9 +16,31 @@ class PostService {
     private authorService = new AuthorService();
     private mediaService = new MediaService();
 
+    // GET ALL - ok
     async getAll() {
-        console.log("PostService - get all");
-        return this.postRepository.find();
+       console.log("PostService - get all");
+       const posts = await this.postRepository.find();
+       const authors = await this.authorService.getAll();
+       const medias = await this.mediaService.getAll();
+       if (posts.length === 0) {
+        throw new Error('No post found');
+      }
+      let totalPost! : PostApiResponseDTO;
+      totalPost.posts = posts;
+      totalPost.authors = authors;
+      totalPost.medias = medias;
+      return totalPost;
+    }
+
+       // ok - GET BY ID
+       async getPostById(id: number) {
+        console.log("PostService - Get by id");
+        const post = await this.postRepository.findOneBy({ id: id });
+        if (!post) {
+            throw new Error('Post not found');
+        } else {
+            return post;
+        }
     }
 
     // Creation d'un post et de ses liaisons -- ok

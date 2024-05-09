@@ -11,6 +11,12 @@ postRouter.get("/", (req, res) => {
     postController.getAll(req, res);
 });
 
+
+postRouter.get("/:id", (req, res) => {
+    console.log("PostRouter - get by id");
+    postController.getPostById(req, res);
+});
+
 // ajouter le checkToken pour le update, delete des post et aussi pour author et media
 postRouter.post("/ajouter", checkTokenAdmin, (req, res) => {
     console.log("PostRouter create");
