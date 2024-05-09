@@ -17,19 +17,21 @@ class PostService {
 
     // GET ALL - ok
     async getAll() {
-       console.log("PostService - get all");
-       const posts = await this.postRepository.find({relations: ['authors', 'medias']});
-       
-       if (posts.length === 0) {
-        throw new Error('No post found');
-      }
-     return posts;
+        console.log("PostService - get all");
+        const posts = await this.postRepository.find({ relations: ['authors', 'medias'] });
+
+        if (posts.length === 0) {
+            throw new Error('No post found');
+        }
+        return posts;
     }
 
-       // ok - GET BY ID
-       async getPostById(id: number) {
+    // ok - GET BY ID
+    async getPostById(id: number) {
         console.log("PostService - Get by id");
-        const post = await this.postRepository.findOneBy({ id: id });
+        const post = await this.postRepository.findOne({
+            where: {id: id},
+            relations: ['authors', 'medias']});
         if (!post) {
             throw new Error('Post not found');
         } else {
@@ -56,7 +58,7 @@ class PostService {
             newPost.authors = [results.author!];
             newPost.medias = [results.media!];
         } else {
-            throw new Error ("Something went wrong while creating Post");
+            throw new Error("Something went wrong while creating Post");
         }
         // 8 - je crée le post dans la base de données
         const newPostToSave = this.postRepository.create(newPost);
@@ -82,26 +84,26 @@ class PostService {
             const isAuthorUpdated = await this.authorRepository.update(existingAuthor.id!, post.author);
             if (isAuthorUpdated) {
                 const updatedAuthor = await this.authorRepository.findOneBy({ id: existingAuthor.id });
-                if(updatedAuthor) {
+                if (updatedAuthor) {
                     const media = await this.mediaRepository.findOneBy({ title: post.media?.title });
-                    if ( media === null) {
+                    if (media === null) {
                         const newMedia = await this.createMedia(post.media!, updatedAuthor.id!);
                         results.author = updatedAuthor;
                         results.media = newMedia;
-                        return results;   
+                        return results;
                     } else {
                         const isUpdatedMedia = await this.mediaRepository.update(media.id!, post.media!);
-                        if (isUpdatedMedia){
+                        if (isUpdatedMedia) {
                             const updatedMedia = await this.mediaRepository.findOneBy({ id: media.id });
                             results.author = updatedAuthor;
                             results.media = updatedMedia!;
                             return results;
                         }
-                }   
+                    }
                 } else {
-                    throw new Error ('Something went wrong while updating author');
+                    throw new Error('Something went wrong while updating author');
                 }
-            }   
+            }
         }
     }
 
