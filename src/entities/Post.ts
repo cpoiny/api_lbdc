@@ -42,7 +42,7 @@ export class Post {
     comments?: Comment[]
 
     // Si le media est delete, update alors le post aussi
-    @ManyToMany(() => Media, media => media.posts, {onDelete: "CASCADE", onUpdate: "CASCADE"})
+    @ManyToMany(() => Media, media => media.posts)
     @JoinTable({name : "post_media",
     joinColumn: { name: 'post_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'media_id', referencedColumnName: 'id' }})
