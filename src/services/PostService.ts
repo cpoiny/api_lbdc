@@ -38,6 +38,8 @@ class PostService {
         if (results) {
             newPost.authors = [results.author!];
             newPost.medias = [results.media!];
+        } else {
+            throw new Error ("Something went wrong while creating Post");
         }
         // 8 - je crée le post dans la base de données
         const newPostToSave = this.postRepository.create(newPost);
@@ -71,11 +73,12 @@ class PostService {
                         results.media = newMedia;
                         return results;   
                     } else {
-                        const isUpdatedMedia = await this.mediaRepository.update(media.id!, media);
+                        const isUpdatedMedia = await this.mediaRepository.update(media.id!, post.media!);
                         if (isUpdatedMedia){
                             const updatedMedia = await this.mediaRepository.findOneBy({ id: media.id });
                             results.author = updatedAuthor;
                             results.media = updatedMedia!;
+                            return results;
                         }
                 }   
                 } else {
