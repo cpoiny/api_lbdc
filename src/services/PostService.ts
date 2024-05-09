@@ -5,7 +5,6 @@ import { Post } from "../entities/Post";
 import { AuthorAndMediaDTO } from "../modelsDTO/authorAndMedia.dto";
 import { MediaDTO } from "../modelsDTO/media.dto";
 import { PostDTO } from "../modelsDTO/post.dto";
-import { PostApiResponseDTO } from "../modelsDTO/postApiResponse.dto";
 import AuthorService from "./AuthorService";
 import MediaService from "./MediaService";
 
@@ -19,17 +18,12 @@ class PostService {
     // GET ALL - ok
     async getAll() {
        console.log("PostService - get all");
-       const posts = await this.postRepository.find();
-       const authors = await this.authorService.getAll();
-       const medias = await this.mediaService.getAll();
+       const posts = await this.postRepository.find({relations: ['authors', 'medias']});
+       
        if (posts.length === 0) {
         throw new Error('No post found');
       }
-      let totalPost! : PostApiResponseDTO;
-      totalPost.posts = posts;
-      totalPost.authors = authors;
-      totalPost.medias = medias;
-      return totalPost;
+     return posts;
     }
 
        // ok - GET BY ID
