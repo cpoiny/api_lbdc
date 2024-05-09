@@ -17,7 +17,7 @@ class PostService {
         return this.postRepository.find();
     }
 
-
+     // git test
     // Creation d'un post et de ses liaisons
     async create(post: PostDTO) {
         console.log("PostService - create");
