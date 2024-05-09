@@ -6,6 +6,7 @@ class PostController {
 
     private postService = new PostService();
 
+    // GET ALL POSTS with AUTHOR and MEDIA associated
     async getAll(req: Request, res: Response) {
         console.log("PostController");
         try {
@@ -17,7 +18,7 @@ class PostController {
         }
     }
 
-    // OK - GET POST BY ID
+    // OK - GET POST BY ID with author and media
     async getPostById(req: Request, res: Response) {
         console.log("PostController - get by id");
         try {
@@ -38,6 +39,18 @@ class PostController {
         } catch (error) {
             console.log("mon erreur", error);
             res.status(500).send({ status: "Failed", message: error });
+        }
+    }
+
+
+      // OK DELETE POST
+      async deletePost(req: Request, res: Response) {
+        console.log("PostController - delete");
+        try {
+            await this.postService.deletePost(Number(req.params.id));
+            res.send({ status: "OK", message: `Sucess to delete post!` });
+        } catch (error) {
+            res.status(500).send({ status: 500, message: `Failed to delete post or post doesn't found!` });
         }
     }
 }

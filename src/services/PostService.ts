@@ -119,6 +119,30 @@ class PostService {
         return newMediaToSave;
     }
 
+    // DELETE POST
+    async deletePost(id: number) {
+        const post = await this.postRepository.findOneBy({ id: id });
+        console.log("PostService - Delete");
+        if (!post) {
+            throw new Error('Post not found');
+        } else {
+            
+             this.postRepository.remove(post);
+             // TODO : erreur ici car mon post n'a pas le champ medias ... 
+             const medias = post.medias;
+
+             for (const media of medias! ) {
+                const mediaWithPosts = await this.mediaRepository.findOne({
+                    where : {id: media.id},
+                    relations: ['posts']});
+
+                if (mediaWithPosts?.posts?.length === 0) {
+                    await this.mediaRepository.remove(media);
+                      }
+        }
+    }
+
+}
 }
 
 export default PostService;

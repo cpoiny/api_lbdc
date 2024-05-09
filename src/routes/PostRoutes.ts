@@ -24,5 +24,13 @@ postRouter.post("/ajouter", checkTokenAdmin, (req, res) => {
 });
 
 
+
+// ok - DELETE - AUTHOR
+postRouter.delete("/:id", checkTokenAdmin, (req, res) => {
+    console.log("postRouter - delete");
+    postController.deletePost(req, res);
+});
+
+
 // on exporte pour qu'il puisse etre appelé par index.ts
 export default postRouter;
