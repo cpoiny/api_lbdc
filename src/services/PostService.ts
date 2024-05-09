@@ -18,7 +18,7 @@ class PostService {
     }
 
 
-    // Creation d'un post et de ses liaisons
+    // Creation d'un post et de ses liaisons -- ok
     async create(post: PostDTO) {
         console.log("PostService - create");
 
