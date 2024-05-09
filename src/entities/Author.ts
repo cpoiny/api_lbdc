@@ -16,11 +16,11 @@ export class Author {
 
     @Column({nullable:true})
     picture?: string
+    
+    @OneToMany(() => Media, media => media.author_id)
+    media?: Media[];
 
     @ManyToMany(() => Post, post => post.authors)
     posts?: Post[];
-
-    @OneToMany(() => Media, media => media.author_id)
-    media?: Media[];
 
 }

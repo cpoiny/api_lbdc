@@ -34,22 +34,19 @@ export class Post {
     @Column({nullable:true})
     quantity_likes?: number
 
-    @ManyToOne(()=> User, (user) => user.posts,
-    {nullable: false})
+    @ManyToOne(()=> User, (user) => user.posts,{nullable: false})
     @JoinColumn({ name: "user_id"})
     user_id!: User['id']
 
-    @OneToMany(()=> Comment, 
-        (comment) => comment.post_id, {nullable:true}
-    )
+    @OneToMany(()=> Comment, (comment) => comment.post_id, {nullable:true})
     comments?: Comment[]
 
     // Si le media est delete, update alors le post aussi
-    @ManyToMany(() => Media, {onDelete: "CASCADE", onUpdate: "CASCADE"})
+    @ManyToMany(() => Media, media => media.posts, {onDelete: "CASCADE", onUpdate: "CASCADE"})
     @JoinTable({name : "post_media",
     joinColumn: { name: 'post_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'media_id', referencedColumnName: 'id' }})
-    media? : Media[]
+    medias? : Media[]
 
     @ManyToMany(() => Author, author => author.posts, {onDelete: "CASCADE", onUpdate: "CASCADE"})
     @JoinTable({name : "post_author",
