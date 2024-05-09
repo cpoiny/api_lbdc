@@ -73,7 +73,6 @@ class PostService {
 
                 if(media === null) {
 
-                    // TODO : probleme ici, verifier pourquoi le média ne se crée pas
                     const newMedia = new Media();
                     newMedia.title = post.media?.title;
                     newMedia.category = post.media?.category;
@@ -88,7 +87,7 @@ class PostService {
                     // liaison de l'auteur au post
                     newPost.authors = [updatedAuthor!];
                     // liaison du média au post
-                    newPost.medias = [media!];
+                    newPost.medias = [media];
                 }
 
                 }
