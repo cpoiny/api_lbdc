@@ -30,8 +30,9 @@ class PostService {
     async getPostById(id: number) {
         console.log("PostService - Get by id");
         const post = await this.postRepository.findOne({
-            where: {id: id},
-            relations: ['authors', 'medias']});
+            where: { id: id },
+            relations: ['authors', 'medias']
+        });
         if (!post) {
             throw new Error('Post not found');
         } else {
@@ -122,28 +123,31 @@ class PostService {
 
     // DELETE POST
     async deletePost(id: number) {
-        const post = await this.postRepository.findOneBy({ id: id });
+        const post = await this.postRepository.findOne({
+            where: { id: id },
+            relations: ['medias']
+        });
         console.log("PostService - Delete");
         if (!post) {
             throw new Error('Post not found');
         } else {
-            
-             this.postRepository.remove(post);
-             // TODO : erreur ici car mon post n'a pas le champ medias ... 
-             const medias = post.medias;
+            // je supprime le post
+            this.postRepository.remove(post);
 
-             for (const media of medias! ) {
+            // verification pour savoir si ce media est concerné par plusieurs posts ou pas
+            for (const media of post.medias!) {
                 const mediaWithPosts = await this.mediaRepository.findOne({
-                    where : {id: media.id},
-                    relations: ['posts']});
-
-                if (mediaWithPosts?.posts?.length === 0) {
+                    where: { id: media.id },
+                    relations: ['posts']
+                });
+                //si il n'y a aucun autrepost associé au media alors on supprime le media
+                if (mediaWithPosts?.posts?.length === 1) {
                     await this.mediaRepository.remove(media);
-                      }
+                }
+            }
         }
-    }
 
-}
+    }
 }
 
 export default PostService;
