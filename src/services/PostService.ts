@@ -70,7 +70,7 @@ class PostService {
     //ok - Create or UpdateAuthor
     async createOrUpdateAuthor(post: PostDTO) {
         let results = new AuthorAndMediaDTO();
-        const existingAuthor = await this.authorRepository.findOneBy({ name: post.author.name });
+        const existingAuthor = await this.authorRepository.findOneBy({ id: post.author.id });
 
         if (existingAuthor === null) {
             const newAuthor = await this.authorService.create(post.author);
@@ -87,7 +87,7 @@ class PostService {
             if (isAuthorUpdated) {
                 const updatedAuthor = await this.authorRepository.findOneBy({ id: existingAuthor.id });
                 if (updatedAuthor) {
-                    const media = await this.mediaRepository.findOneBy({ title: post.media?.title });
+                    const media = await this.mediaRepository.findOneBy({ id: post.media?.id });
                     if (media === null) {
                         const newMedia = await this.createMedia(post.media!, updatedAuthor.id!);
                         results.author = updatedAuthor;
@@ -120,6 +120,34 @@ class PostService {
         const newMediaToSave = await this.mediaService.create(newMedia);
         return newMediaToSave;
     }
+
+    // UPDATE POST
+    async updatePost (id: number, post: PostDTO) {
+        const oldPost = await this.getPostById(id);
+        if (oldPost) {
+        oldPost.title = post.title,
+        oldPost.content = post.content,
+        oldPost.picture = post.picture,
+        oldPost.updated_at = new Date(),
+        oldPost.is_draft = post.is_draft,
+        oldPost.quantity_comments = post.quantity_comments,
+        oldPost.quantity_likes = post.quantity_likes;
+        } else {
+            throw new Error("No post found to be updated");
+        }
+
+        const authorAndMedia = await this.createOrUpdateAuthor(post);
+        if (authorAndMedia){
+            oldPost.authors = [authorAndMedia.author!],
+            oldPost.medias = [authorAndMedia?.media!]
+        } else {
+            throw new Error ("Something went wrong while updating author or media");
+        }
+
+       return this.postRepository.save(oldPost);
+    }
+
+
 
     //ok - DELETE POST
     async deletePost(id: number) {
