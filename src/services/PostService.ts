@@ -56,13 +56,13 @@ class PostService {
         newPost.quantity_likes = post.quantity_likes;
 
         let results = await this.createOrUpdateAuthor(post);
+        
         if (results) {
             newPost.authors = [results.author!];
             newPost.medias = [results.media!];
         } else {
             throw new Error("Something went wrong while creating Post");
         }
-        // 8 - je crée le post dans la base de données
         const newPostToSave = this.postRepository.create(newPost);
         return await this.postRepository.save(newPostToSave);
     }

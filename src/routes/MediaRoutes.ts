@@ -14,12 +14,11 @@ mediaRouter.get("/", (req, res) => {
 
 //ok - GET - MEDIA BY ID
 mediaRouter.get("/:id", (req, res) => {
-    console.log("userRouter - get by id");
+    console.log("MediaRouter - get by id");
     mediaController.getMediaById(req, res);
 });
 
-
-// ok - ajouter le checkTokenAdmin pour le update, delete des media et aussi pour media et media
+// ok - CREATE MEDIA
 mediaRouter.post("/ajouter", checkTokenAdmin, (req, res) => {
     console.log("MediaRouter create");
     mediaController.create(req, res);
@@ -27,15 +26,14 @@ mediaRouter.post("/ajouter", checkTokenAdmin, (req, res) => {
 
 // ok - PUT - UPDATE MEDIA
 mediaRouter.put("/:id", checkTokenAdmin, (req, res) => {
-    console.log("UserRouter - update");
+    console.log("MediaRouter - update");
     mediaController.updateMedia(req, res);
 });
 
 // ok - DELETE - MEDIA
 mediaRouter.delete("/:id", checkTokenAdmin, (req, res) => {
-    console.log("mediaRouter - delete");
+    console.log("MediaRouter - delete");
     mediaController.deleteMedia(req, res);
 });
 
-// on exporte pour qu'il puisse etre appelé par index.ts
 export default mediaRouter;

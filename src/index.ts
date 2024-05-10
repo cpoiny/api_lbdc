@@ -14,7 +14,6 @@ AppDataSource.initialize().then(() => {
     //on paramètre la possibilité de récupérer des infos dans un  body au format json
     app.use(express.json());
 
-
     //urls de connexion à la base de données
     app.use("/posts", postRouter);
 
@@ -29,4 +28,3 @@ AppDataSource.initialize().then(() => {
         console.log(`Server is running on port ${process.env.PORT}`);
     });
 })
-// .catch((error) => console.log("mon erreur", error))

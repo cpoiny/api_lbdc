@@ -18,7 +18,6 @@ userRouter.get("/:id", (req, res) => {
     userController.getUserById(req, res);
 });
 
-
 // ok - POST - CREATE USER - SIGNUP
 userRouter.post("/signup", checkDataForCreation, (req, res) => {
     console.log("UserRouter - create signup");

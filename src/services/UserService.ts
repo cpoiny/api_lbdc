@@ -105,7 +105,7 @@ class UserService {
 
     return token;
   }
-  
+
   async loginUser(email: string, password: string) {
     // Check if user exists
     const user = await this.userRepository.findOneBy({ email: email });

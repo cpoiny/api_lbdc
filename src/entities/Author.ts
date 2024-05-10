@@ -14,9 +14,9 @@ export class Author {
     @Column("text")
     description?: string
 
-    @Column({nullable:true})
+    @Column({ nullable: true })
     picture?: string
-    
+
     @OneToMany(() => Media, media => media.author_id)
     media?: Media[];
 

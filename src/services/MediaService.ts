@@ -9,7 +9,7 @@ class MediaService {
         console.log("MediaService - get all");
         const medias = await this.mediaRepository.find();
         if (medias.length === 0) {
-          throw new Error('No medias found');
+            throw new Error('No medias found');
         }
         return medias;
     }

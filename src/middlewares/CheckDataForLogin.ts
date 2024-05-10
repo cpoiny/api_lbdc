@@ -12,7 +12,8 @@ const checkDataForLogin = (req: Request, res: Response, next: NextFunction) => {
     });
     const { error } = schema.validate({ password, email });
     if (error) {
-        res.status(500).json({ message: `Invalid Email or password for Login!` });
+        let errorMessage = (error as Error).message;
+        res.status(500).json({ message: `Invalid Email or password for Login because ${errorMessage}!` });
     }
     else {
         next();
