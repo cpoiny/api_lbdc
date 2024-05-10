@@ -41,7 +41,7 @@ class PostService {
     }
 
  
-    // Creation d'un post et de ses liaisons
+    // ok - Creation d'un post et de ses liaisons
     async create(post: PostDTO) {
         console.log("PostService - create");
 
@@ -67,7 +67,7 @@ class PostService {
         return await this.postRepository.save(newPostToSave);
     }
 
-    // Create or UpdateAuthor
+    //ok - Create or UpdateAuthor
     async createOrUpdateAuthor(post: PostDTO) {
         let results = new AuthorAndMediaDTO();
         const existingAuthor = await this.authorRepository.findOneBy({ name: post.author.name });
@@ -109,7 +109,7 @@ class PostService {
         }
     }
 
-    // ccreate or update media
+    //ok - create or update media
     async createMedia(media: MediaDTO, id: number) {
         const newMedia = new Media();
         newMedia.title = media.title;
@@ -121,32 +121,31 @@ class PostService {
         return newMediaToSave;
     }
 
-    // DELETE POST
+    //ok - DELETE POST
     async deletePost(id: number) {
+        console.log("PostService - Delete");
+        // je recupere le post
         const post = await this.postRepository.findOne({
             where: { id: id },
             relations: ['medias']
         });
-        console.log("PostService - Delete");
         if (!post) {
             throw new Error('Post not found');
         } else {
             // je supprime le post
             this.postRepository.remove(post);
-
             // verification pour savoir si ce media est concerné par plusieurs posts ou pas
             for (const media of post.medias!) {
                 const mediaWithPosts = await this.mediaRepository.findOne({
                     where: { id: media.id },
                     relations: ['posts']
                 });
-                //si il n'y a aucun autrepost associé au media alors on supprime le media
+                //si il n'y a aucun autre post associé au media alors on supprime le media
                 if (mediaWithPosts?.posts?.length === 1) {
                     await this.mediaRepository.remove(media);
                 }
             }
         }
-
     }
 }
 
