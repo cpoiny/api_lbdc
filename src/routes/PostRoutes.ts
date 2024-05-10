@@ -24,6 +24,13 @@ postRouter.post("/ajouter", checkTokenAdmin, (req, res) => {
     postController.create(req, res);
 });
 
+
+// OK - DELETE POST
+postRouter.put("/modifier/:id", checkTokenAdmin, (req, res) => {
+    console.log("PostRouter - update");
+    postController.updatePost(req, res);
+});
+
 // OK - DELETE POST
 postRouter.delete("/:id", checkTokenAdmin, (req, res) => {
     console.log("PostRouter - delete");

@@ -45,6 +45,18 @@ class PostController {
         }
     }
 
+    // WIP - UPDATE 
+    async updatePost(req: Request, res: Response) {
+        console.log("PostController - update");
+        try {
+            await this.postService.updatePost(Number(req.params.id), req.body);
+            res.status(201).json({ status: "Success" });
+        } catch (error) {
+            let errorMessage = (error as Error).message;
+            res.status(500).json({ status: "Failed", message: `Failed to update post beacause ${errorMessage}` });
+        }
+    }
+
     // OK DELETE POST
     async deletePost(req: Request, res: Response) {
         console.log("PostController - delete");
