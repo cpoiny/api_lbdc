@@ -9,7 +9,7 @@ class AuthorService {
         console.log("AuthorService - get all");
         const authors = await this.authorRepository.find();
         if (authors.length === 0) {
-          throw new Error('No authors found');
+            throw new Error('No authors found');
         }
         return authors;
     }

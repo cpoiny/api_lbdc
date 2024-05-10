@@ -4,6 +4,7 @@ import { NextFunction, Request, Response } from "express";
 
 const checkDataForCreation = (req: Request, res: Response, next: NextFunction) => {
     console.log("checkDataForCreation");
+
     const { pseudo, email, password } = req.body || {};
 
     const schema = Joi.object({
@@ -13,7 +14,8 @@ const checkDataForCreation = (req: Request, res: Response, next: NextFunction) =
     });
     const { error } = schema.validate({ pseudo, password, email });
     if (error) {
-        res.status(500).json({ message: `Invalid data for create an account` });
+        let errorMessage = (error as Error).message;
+        res.status(500).json({ message: `Invalid data for create an account because ${errorMessage}` });
     }
     else {
         next();

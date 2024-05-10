@@ -18,11 +18,11 @@ export class Media {
     @Column()
     theme?: string
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     edition?: string
 
-    @ManyToOne(()=> Author, author => author.media, {onDelete: "CASCADE", onUpdate: "CASCADE"})
-    @JoinColumn({ name: "author_id"})
+    @ManyToOne(() => Author, author => author.media, { onDelete: "CASCADE", onUpdate: "CASCADE" })
+    @JoinColumn({ name: "author_id" })
     author_id!: Author['id']
 
     @ManyToMany(() => Post, post => post.medias)

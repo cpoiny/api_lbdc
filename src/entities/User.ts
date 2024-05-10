@@ -8,13 +8,11 @@ export enum UserRole {
     USER = "user"
 }
 
-
-
 @Entity()
-export class User{
+export class User {
 
     @PrimaryGeneratedColumn()
-    id?:number
+    id?: number
 
     @Column()
     pseudo?: string
@@ -32,22 +30,26 @@ export class User{
     })
     role?: string
 
-    @OneToMany(() => Post, (post) => post.user_id, {nullable: true})
+    @OneToMany(() => Post, (post) => post.user_id, { nullable: true })
     posts?: Post[]
-    
-    @OneToMany(() => Comment, (comment) => comment.user_id, {nullable:true})
-    comments?: Comment[]
-    
-    @ManyToMany(() => Post, {nullable: true})
-    @JoinTable({name: "like",
-    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'post_id', referencedColumnName: 'id' }})
-    like? : Post[]
 
-    @ManyToMany(() => Media, {nullable:true})
-    @JoinTable({name: "wishlist",
-    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'media_id', referencedColumnName: 'id' }})
-    books? : Media[]
+    @OneToMany(() => Comment, (comment) => comment.user_id, { nullable: true })
+    comments?: Comment[]
+
+    @ManyToMany(() => Post, { nullable: true })
+    @JoinTable({
+        name: "like",
+        joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+        inverseJoinColumn: { name: 'post_id', referencedColumnName: 'id' }
+    })
+    like?: Post[]
+
+    @ManyToMany(() => Media, { nullable: true })
+    @JoinTable({
+        name: "wishlist",
+        joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+        inverseJoinColumn: { name: 'media_id', referencedColumnName: 'id' }
+    })
+    books?: Media[]
 
 }

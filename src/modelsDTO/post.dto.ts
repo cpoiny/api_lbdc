@@ -2,7 +2,6 @@ import { CommentDTO } from "./comment.dto";
 import { AuthorDTO } from "./author.dto";
 import { MediaDTO } from "./media.dto";
 
-
 export class PostDTO {
     id!: number;
     title!: string;

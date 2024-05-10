@@ -15,15 +15,15 @@ export class Comment {
         type: 'timestamp'
     })
     publicated_at?: Date
-    
-    @UpdateDateColumn({type: 'timestamp', nullable: true})
+
+    @UpdateDateColumn({ type: 'timestamp', nullable: true })
     updated_at?: Date
 
-    @ManyToOne(()=> User, (user) => user.comments,{nullable: false})
-    @JoinColumn({ name: "user_id"})
+    @ManyToOne(() => User, (user) => user.comments, { nullable: false })
+    @JoinColumn({ name: "user_id" })
     user_id!: User['id']
 
-    @ManyToOne(()=> Post, (post) => post.comments)
-    @JoinColumn({ name: "post_id"})
+    @ManyToOne(() => Post, (post) => post.comments)
+    @JoinColumn({ name: "post_id" })
     post_id!: Post['id']
 }

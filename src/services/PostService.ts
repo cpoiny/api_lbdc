@@ -30,8 +30,9 @@ class PostService {
     async getPostById(id: number) {
         console.log("PostService - Get by id");
         const post = await this.postRepository.findOne({
-            where: {id: id},
-            relations: ['authors', 'medias']});
+            where: { id: id },
+            relations: ['authors', 'medias']
+        });
         if (!post) {
             throw new Error('Post not found');
         } else {
@@ -40,7 +41,7 @@ class PostService {
     }
 
  
-    // Creation d'un post et de ses liaisons
+    // ok - Creation d'un post et de ses liaisons
     async create(post: PostDTO) {
         console.log("PostService - create");
 
@@ -55,18 +56,18 @@ class PostService {
         newPost.quantity_likes = post.quantity_likes;
 
         let results = await this.createOrUpdateAuthor(post);
+        
         if (results) {
             newPost.authors = [results.author!];
             newPost.medias = [results.media!];
         } else {
             throw new Error("Something went wrong while creating Post");
         }
-        // 8 - je crée le post dans la base de données
         const newPostToSave = this.postRepository.create(newPost);
         return await this.postRepository.save(newPostToSave);
     }
 
-    // Create or UpdateAuthor
+    //ok - Create or UpdateAuthor
     async createOrUpdateAuthor(post: PostDTO) {
         let results = new AuthorAndMediaDTO();
         const existingAuthor = await this.authorRepository.findOneBy({ name: post.author.name });
@@ -108,7 +109,7 @@ class PostService {
         }
     }
 
-    // ccreate or update media
+    //ok - create or update media
     async createMedia(media: MediaDTO, id: number) {
         const newMedia = new Media();
         newMedia.title = media.title;
@@ -120,30 +121,32 @@ class PostService {
         return newMediaToSave;
     }
 
-    // DELETE POST
+    //ok - DELETE POST
     async deletePost(id: number) {
-        const post = await this.postRepository.findOneBy({ id: id });
         console.log("PostService - Delete");
+        // je recupere le post
+        const post = await this.postRepository.findOne({
+            where: { id: id },
+            relations: ['medias']
+        });
         if (!post) {
             throw new Error('Post not found');
         } else {
-            
-             this.postRepository.remove(post);
-             // TODO : erreur ici car mon post n'a pas le champ medias ... 
-             const medias = post.medias;
-
-             for (const media of medias! ) {
+            // je supprime le post
+            this.postRepository.remove(post);
+            // verification pour savoir si ce media est concerné par plusieurs posts ou pas
+            for (const media of post.medias!) {
                 const mediaWithPosts = await this.mediaRepository.findOne({
-                    where : {id: media.id},
-                    relations: ['posts']});
-
-                if (mediaWithPosts?.posts?.length === 0) {
+                    where: { id: media.id },
+                    relations: ['posts']
+                });
+                //si il n'y a aucun autre post associé au media alors on supprime le media
+                if (mediaWithPosts?.posts?.length === 1) {
                     await this.mediaRepository.remove(media);
-                      }
+                }
+            }
         }
     }
-
-}
 }
 
 export default PostService;

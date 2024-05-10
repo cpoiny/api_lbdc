@@ -13,12 +13,11 @@ authorRouter.get("/", (req, res) => {
 
 //ok - GET - AUTHOR BY ID
 authorRouter.get("/:id", (req, res) => {
-    console.log("userRouter - get by id");
+    console.log("AuthorRouter - get by id");
     authorController.getAuthorById(req, res);
 });
 
-
-// ok - ajouter le checkTokenAdmin pour le update, delete des author et aussi pour author et media
+// ok - CREATE AUTHOR
 authorRouter.post("/ajouter", checkTokenAdmin, (req, res) => {
     console.log("AuthorRouter create");
     authorController.create(req, res);
@@ -26,15 +25,14 @@ authorRouter.post("/ajouter", checkTokenAdmin, (req, res) => {
 
 // ok - PUT - UPDATE AUTHOR
 authorRouter.put("/:id", checkTokenAdmin, (req, res) => {
-    console.log("UserRouter - update");
+    console.log("AuthorRouter - update");
     authorController.updateAuthor(req, res);
 });
 
 // ok - DELETE - AUTHOR
 authorRouter.delete("/:id", checkTokenAdmin, (req, res) => {
-    console.log("authorRouter - delete");
+    console.log("AuthorRouter - delete");
     authorController.deleteAuthor(req, res);
 });
 
-// on exporte pour qu'il puisse etre appelé par index.ts
 export default authorRouter;

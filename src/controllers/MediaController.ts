@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
 import MediaService from "../services/MediaService";
 
-
-
 class MediaController {
 
     private mediaService = new MediaService();
@@ -10,58 +8,65 @@ class MediaController {
     // OK - GET ALL users
     async getAll(req: Request, res: Response) {
         console.log("MediaController");
-        try{
+
+        try {
             const medias = await this.mediaService.getAll();
-            res.send({ status: "OK", data: medias })
-        } catch (error: unknown) {
-            let  errorMessage = (error as Error).message;
-            res.status(500).send({ status: 500, message: `Failed to get medias because ${errorMessage}`});
+            res.status(200).json({ status: "Success", data: medias })
+        } catch (error) {
+            let errorMessage = (error as Error).message;
+            res.status(500).json({ status: "Failed", message: `Failed to get medias because ${errorMessage}` });
         }
     }
 
     // OK - GET MEDIA BY ID
     async getMediaById(req: Request, res: Response) {
         console.log("MediaController - get by id");
+
         try {
             const media = await this.mediaService.getMediaById(Number(req.params.id));
-            res.send({ status: "OK", data: media });
+            res.status(200).json({ status: "Success", data: media });
         } catch (error) {
-            res.status(500).send({ status: 500, message: "Failed to get media, media doesn't exist" });
+            let errorMessage = (error as Error).message;
+            res.status(500).json({ status: "Failed", message: `Failed to get media because ${errorMessage}` });
         }
     }
 
     // OK CREATE MEDIA
     async create(req: Request, res: Response) {
         console.log("MediaController create");
+
         try {
             const media = await this.mediaService.create(req.body);
-            res.send({ status: "OK", data: media });
-        } catch (error: unknown) {
+            res.status(200).json({ status: "Success", data: media });
+        } catch (error) {
             let errorMessage = (error as Error).message
-            res.status(500).send({ status: "Failed", message: errorMessage });
+            res.status(500).json({ status: "Failed", message: `Failed to create media because ${errorMessage}` });
         }
     }
 
     //ok - UPDATE USER
     async updateMedia(req: Request, res: Response) {
         console.log("MediaController - update");
+
         try {
             await this.mediaService.updateMedia(Number(req.params.id), req.body);
-            res.send({ status: 200, message: "Success to update media" });
-        } catch (error: unknown) {
+            res.status(200).json({ status: "Success", message: "Success to update media" });
+        } catch (error) {
             let errorMessage = (error as Error).message
-            res.status(500).send({ status: 500, message: `Failed to update media because ${errorMessage}` });
+            res.status(500).json({ status: "Failed", message: `Failed to update media because ${errorMessage}` });
         }
     }
 
     // OK DELETE MEDIA
     async deleteMedia(req: Request, res: Response) {
-        console.log("USerController - delete");
+        console.log("MediaController - delete");
+
         try {
             await this.mediaService.deleteMedia(Number(req.params.id));
-            res.send({ status: "OK", message: `Sucess to delete media!` });
+            res.status(200).json({ status: "Success" });
         } catch (error) {
-            res.status(500).send({ status: 500, message: `Failed to delete media or media doesn't found!` });
+            let errorMessage = (error as Error).message
+            res.status(500).json({ status: "Failed", message: `Failed to delete media because ${errorMessage}` });
         }
     }
 }

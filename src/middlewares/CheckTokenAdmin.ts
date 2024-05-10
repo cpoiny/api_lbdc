@@ -16,7 +16,7 @@ const checkTokenAdmin = (req: Request, res: Response, next: NextFunction) => {
     // on récupére si y' a un token
     const token = req.headers.authorization;
     if (!token) {
-        return res.status(401).json({ message: "Unauthorized" });
+        return res.status(401).json({ message: "Unauthorized, aucun token!" });
     }
 
     //on extrait les infos de notre token
@@ -27,12 +27,12 @@ const checkTokenAdmin = (req: Request, res: Response, next: NextFunction) => {
         const role = decodedToken.role;
 
         if (role !== "admin") {
-            return res.status(401).json({ message: "Unauthorized role" });
+            return res.status(401).json({ message: "Unauthorized role!" });
         }
 
     } catch (error) {
-        console.log("error check token", error);
-        return res.status(401).json({ message: "Authorized , invalid token" })
+        let errorMessage = (error as Error).message;
+        return res.status(401).json({ message: `Unauthorized invalid token, ${errorMessage}!` })
     }
     next();
 }

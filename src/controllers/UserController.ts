@@ -8,12 +8,13 @@ class UserController {
     //ok - GET ALL USERS
     async getAllUsers(req: Request, res: Response) {
         console.log("UserController - get all");
+
         try {
             const users = await this.userService.getAllUsers();
-            res.send({ status: "OK", data: users })
-        } catch (error: unknown) {
+            res.status(200).json({ status: "Success", data: users });
+        } catch (error) {
             let errorMessage = (error as Error).message;
-            res.status(500).send({ status: 500, message: `Failed to get users because ${errorMessage}` });
+            res.status(500).json({ status: "Failed", message: `Failed to get users because ${errorMessage}` });
         }
     }
 
@@ -23,9 +24,10 @@ class UserController {
 
         try {
             const user = await this.userService.getUserById(Number(req.params.id));
-            res.send({ status: "OK", data: user });
+            res.status(200).json({ status: "Success", data: user });
         } catch (error) {
-            res.status(500).send({ status: 500, message: "Failed to get user, user doesn't exist" });
+            let errorMessage = (error as Error).message;
+            res.status(500).json({ status: "Failed", message: `Failed to get user because ${errorMessage}` });
         }
     }
 
@@ -35,13 +37,12 @@ class UserController {
         const { pseudo, email, password } = req.body;
 
         try {
-            const createdUser = await this.userService.signup(pseudo, email, password);
-            res.status(201).json({ message: "User created" });
+            await this.userService.signup(pseudo, email, password);
+            res.status(200).json({ status: "Success" });
         } catch (error) {
-            res.status(500).json({ message: `Failed to create user ${pseudo}, or user exist` });
+            let errorMessage = (error as Error).message;
+            res.status(500).json({ status: "Failed", message: `Failed to create user ${pseudo} because ${errorMessage}` });
         }
-
-
     }
 
     //ok - UPDATE USER
@@ -50,10 +51,10 @@ class UserController {
 
         try {
             await this.userService.updateUser(Number(req.params.id), req.body);
-            res.send({ status: 200, message: "Success to update user" });
-        } catch (error: unknown) {
-            let errorMessage = (error as Error).message
-            res.status(500).send({ status: 500, message: `Failed to update user because ${errorMessage}` });
+            res.status(200).json({ status: "Success" });
+        } catch (error) {
+            let errorMessage = (error as Error).message;
+            res.status(500).json({ status: "Failed", message: `Failed to update user because ${errorMessage}` });
         }
     }
 
@@ -63,9 +64,10 @@ class UserController {
 
         try {
             await this.userService.deleteUser(Number(req.params.id));
-            res.send({ status: "OK", message: `Sucess to delete user!` });
+            res.status(201).json({ status: "Success", message: `Sucess to delete user!` });
         } catch (error) {
-            res.status(500).send({ status: 500, message: `Failed to delete user or user doesn't found!` });
+            let errorMessage = (error as Error).message;
+            res.status(500).json({ status: "Failed", message: `Failed to delete user because ${errorMessage}` });
         }
     }
 
@@ -73,11 +75,13 @@ class UserController {
     async loginAdmin(req: Request, res: Response) {
         console.log("UserController-login")
         const { email, password } = req.body;
+
         try {
             const token = await this.userService.loginAdmin(email, password);
-            res.status(201).json({ token, message: "Connexion sucessful" });
-        } catch (error: unknown){
-            res.status(500).json({ message: `Failed to login because ${(error as Error).message}!` });
+            res.status(201).json({ status: "Success", token, message: "Connexion admin sucessful" });
+        } catch (error) {
+            let errorMessage = (error as Error).message;
+            res.status(500).json({ status: "Failed", message: `Failed to login admin because ${errorMessage}!` });
         }
 
     }
@@ -85,13 +89,14 @@ class UserController {
     async loginUser(req: Request, res: Response) {
         console.log("UserController-login user")
         const { email, password } = req.body;
+
         try {
             const token = await this.userService.loginUser(email, password);
-            res.status(201).json({ token, message: "Connexion sucessful" });
-        } catch (error: unknown){
-            res.status(500).json({ message: `Failed to login because ${(error as Error).message}!` });
+            res.status(201).json({ status: "Success", token, message: "Connexion user sucessful" });
+        } catch (error) {
+            let errorMessage = (error as Error).message;
+            res.status(500).json({ status: "Failed", message: `Failed to login user because ${errorMessage}!` });
         }
-
     }
 }
 
