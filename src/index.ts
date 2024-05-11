@@ -5,6 +5,7 @@ import postRouter from './routes/PostRoutes';
 import userRouter from './routes/UserRoutes';
 import authorRouter from './routes/AuthorRoutes';
 import mediaRouter from './routes/MediaRoutes';
+import messageRouter from './routes/MessageRoutes';
 
 
 AppDataSource.initialize().then(() => {
@@ -22,6 +23,8 @@ AppDataSource.initialize().then(() => {
     app.use("/authors", authorRouter);
 
     app.use("/medias", mediaRouter);
+
+    app.use("/messages", messageRouter);
 
 
     app.listen(process.env.PORT, () => {
