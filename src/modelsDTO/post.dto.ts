@@ -11,8 +11,8 @@ export class PostDTO {
     updated_at!: Date;
     is_draft!: boolean;
     user_id!: number;
-    author!: AuthorDTO;
-    media?: MediaDTO;
+    authors!: AuthorDTO[];
+    medias?: MediaDTO[];
     comments?: CommentDTO[];
     quantity_comments?: number;
     quantity_likes?: number;

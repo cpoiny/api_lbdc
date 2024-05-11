@@ -21,7 +21,7 @@ const checkTokenAdmin = (req: Request, res: Response, next: NextFunction) => {
 
     //on extrait les infos de notre token
     // on remplace "Bearer " par "" => car dans postman on a un prefixe Bearer devant le token
-    const tokenVerify = token.replace("Bearer ", "");
+    const tokenVerify = token.replace('Bearer ', "");
     try {
         const decodedToken = jwt.verify(tokenVerify, process.env.JWT_SECRET as string) as MyTokenPayload;
         const role = decodedToken.role;

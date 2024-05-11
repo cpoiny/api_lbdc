@@ -70,31 +70,31 @@ class PostService {
     //ok - Create or UpdateAuthor
     async createOrUpdateAuthor(post: PostDTO) {
         let results = new AuthorAndMediaDTO();
-        const existingAuthor = await this.authorRepository.findOneBy({ id: post.author.id });
+        const existingAuthor = await this.authorRepository.findOneBy({ id: post.authors[0].id });
 
         if (existingAuthor === null) {
-            const newAuthor = await this.authorService.create(post.author);
+            const newAuthor = await this.authorService.create(post.authors[0]);
             results.author = newAuthor;
             if (newAuthor) {
-                const newMedia = await this.createMedia(post.media!, newAuthor.id!);
+                const newMedia = await this.createMedia(post.medias![0], newAuthor.id!);
                 results.media = newMedia
             }
             return results;
 
         } else {
 
-            const isAuthorUpdated = await this.authorRepository.update(existingAuthor.id!, post.author);
+            const isAuthorUpdated = await this.authorRepository.update(existingAuthor.id!, post.authors[0]);
             if (isAuthorUpdated) {
                 const updatedAuthor = await this.authorRepository.findOneBy({ id: existingAuthor.id });
                 if (updatedAuthor) {
-                    const media = await this.mediaRepository.findOneBy({ id: post.media?.id });
+                    const media = await this.mediaRepository.findOneBy({ id: post.medias![0].id });
                     if (media === null) {
-                        const newMedia = await this.createMedia(post.media!, updatedAuthor.id!);
+                        const newMedia = await this.createMedia(post.medias![0], updatedAuthor.id!);
                         results.author = updatedAuthor;
                         results.media = newMedia;
                         return results;
                     } else {
-                        const isUpdatedMedia = await this.mediaRepository.update(media.id!, post.media!);
+                        const isUpdatedMedia = await this.mediaRepository.update(media.id!, post.medias![0]);
                         if (isUpdatedMedia) {
                             const updatedMedia = await this.mediaRepository.findOneBy({ id: media.id });
                             results.author = updatedAuthor;
