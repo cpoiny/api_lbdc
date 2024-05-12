@@ -16,7 +16,7 @@ export class Post {
     @Column("text")
     content?: string
 
-    @Column({ length: 100 })
+    @Column({ length: 500 })
     picture?: string
 
     @CreateDateColumn({ type: 'timestamp' })
