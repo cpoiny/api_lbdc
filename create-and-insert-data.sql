@@ -1,4 +1,4 @@
-CREATE DATABASE api_labc;
+--CREATE DATABASE api_labc;
 
 DROP TABLE IF EXISTS "user" CASCADE;
 DROP TABLE IF EXISTS post CASCADE;
@@ -29,7 +29,6 @@ CREATE TABLE post (
   quantity_comments INT null,
   quantity_likes INT null,
   user_id INT not null,
-  author_id INT null,
   constraint fk_user FOREIGN KEY (user_id) REFERENCES "user" (id)
 );
 
@@ -45,8 +44,6 @@ CREATE TABLE media (
   title VARCHAR(255) NOT NULL ,
   category VARCHAR(50) not null,
   theme VARCHAR(50) not null,
-  created_at DATE not null,
-  updated_at DATE null,
   edition VARCHAR(50) not NULL,
   author_id INT not null,
   constraint fk_author FOREIGN KEY (author_id) REFERENCES author (id)
@@ -161,15 +158,14 @@ INSERT INTO author (id, name, description, picture) VALUES
          'assets/img/auteur/Marguerite-Duras.jpg'         
     );
 
-INSERT INTO post (id, title, content, picture, publicated_at,is_draft, user_id, author_id) VALUES 
+INSERT INTO post (id, title, content, picture, publicated_at,is_draft, user_id) VALUES 
     ( 1,
         'Le café suspendu',
         'Le café comme vecteur de partage et de solidarité dans toute sa complexité, avec amertume et force.\n\nAmanda Sthers rend hommage à cette tradition napolitaine qui est celle du ''café sospeso'' (payer deux cafés, un pour vous et un autre pour un client démuni qui en fera la demande).\n\n Elle nous présente Jacques Madelin, français ayant emménagé en Italie par amour pour une femme, et y étant resté par amour pour la ville de Naples et ses habitants si hauts en couleurs.\n\nCe dernier nous raconte son histoire ayant pour cadre principal le café Nube qu''il fréquente assidûment et au dessus duquel il vit.\n\n Il y passe le plus clair de son temps libre et y observe ces gens, ceux qui consomment les cafés, ceux qui jouent le jeu du café sospeso, et ceux qui en bénéficient. C''est leurs histoires qu''il nous raconte, sept histoires plus précisément, sous forme de nouvelles qu''il extirpe de ses carnets pleins de notes prises au fil du temps.\n\n Pour connaître Naples moi même, je trouve qu''Amanda Sthers retranscrit avec brio cette ambiance si particulière qui y règne. \n\n Une atmosphère électrique, propre à ces villes qui semblent être au bord de l''explosion, mêlée à cette énergie si typiquement méditerranéenne qui inquiète le touriste autant qu''elle le dépayse, et qui rassure l''habitant qui lui, sait l''apprivoiser, sait en tirer la substantifique moelle.\n\n Une lecture comparable à une tasse café, consommé seul ou partagé. Des histoires dans une histoire. C''est plein d''humanité, de générosité et de poésie et ça donne une très belle vision de cette sublime ville qu''est Naples 🇮🇹. \n\n À lire! ',
         'assets/img/le_cafe_suspendu.png',
         '2022-06-18',
         false,
-        1,
-		1
+        1
     ),
     (2,
         'Le dernier été en ville',
@@ -177,8 +173,7 @@ INSERT INTO post (id, title, content, picture, publicated_at,is_draft, user_id, 
         'assets/img/dernier_ete_en_ville.png',
         '2022-05-01',
         true,
-        1,
-        2
+        1
     ),
     (3,
         'Vivre libre',
@@ -186,8 +181,7 @@ INSERT INTO post (id, title, content, picture, publicated_at,is_draft, user_id, 
         'assets/img/vivre_libre.png',
         '2021-07-27',
         false,
-        1,
-        3
+        1
     ),
     (4,
         'L''ecume des jours',
@@ -195,8 +189,7 @@ INSERT INTO post (id, title, content, picture, publicated_at,is_draft, user_id, 
         'assets/img/ecume_des_jours.png',
         '2020-09-30',
         false,
-        1,
-        4
+        1
     ),
     (5,
         'Tendre est la nuit',
@@ -204,8 +197,7 @@ INSERT INTO post (id, title, content, picture, publicated_at,is_draft, user_id, 
         'assets/img/tendre_est_la_nuit.png',
         '2020-09-17',
         false,
-        1,
-        5
+        1
     ),
     (6,
         'La vie devant soi',
@@ -213,8 +205,7 @@ INSERT INTO post (id, title, content, picture, publicated_at,is_draft, user_id, 
         'assets/img/la_vie_devant_soi.png',
         '2020-12-13',
         false,
-        1,
-        6
+        1
     ),
     (7,
         'Sur la route',
@@ -222,8 +213,7 @@ INSERT INTO post (id, title, content, picture, publicated_at,is_draft, user_id, 
         'assets/img/sur_la_route.png',
         '2021-01-09',
         false,
-        1,
-        7
+        1
     ),
     (8,
         'Fight club',
@@ -231,8 +221,7 @@ INSERT INTO post (id, title, content, picture, publicated_at,is_draft, user_id, 
         'assets/img/fight_club.png',
         '2021-02-08',
         false,
-        1,
-        8
+        1
     ),
     (9,
         'Les yeux noirs existent',
@@ -240,8 +229,7 @@ INSERT INTO post (id, title, content, picture, publicated_at,is_draft, user_id, 
         'assets/img/les_yeux_noirs_existent.png',
         '2022-12-29',
         false,
-        1,
-        9
+        1
     ),
     (10,
         'La constellation',
@@ -249,8 +237,7 @@ INSERT INTO post (id, title, content, picture, publicated_at,is_draft, user_id, 
         'assets/img/la_constellation.png',
         '2023-05-01',
         false,
-        1,
-        10
+        1
     ),
     (11,
         'L''amant',
@@ -258,84 +245,83 @@ INSERT INTO post (id, title, content, picture, publicated_at,is_draft, user_id, 
         'assets/img/l-amant.png',
         '2022-11-28',
         true,
-        1,
-        11
+        1
     );
 
 INSERT INTO media (title, category, theme, edition, author_id) VALUES
     (
         'Le café suspendu',
-        'book',
+        'litterature',
         'Classique',
         'Editions Grasset',
         1
     ),
     (
         'Le dernier été en ville',
-        'book',
+        'litterature',
         'Classique',
         'Editions Gallimard',
         2
     ),
     (
         'Vivre libre',
-        'book',
+        'litterature',
         'Aventure',
         'Editions Points',
         3
     ),
     (
         'L''ecume des jours',
-        'book',
+        'litterature',
         'classique',
         'Editions 1018',
        4
     ),
     (
         'Tendre est la nuit',
-        'book',
+        'litterature',
         'classique',
         'Livre de poche',
         5
     ),
     (
         'La vie devant soi',
-        'book',
+        'litterature',
         'classique',
         'Editions Folio',
         6
     ),
     (
         'Sur la route',
-        'book',
+        'litterature',
         'classique',
         'Editions Folio',
         7
     ),
     (
         'Fight club',
-        'book',
+        'litterature',
         'classique',
         'Editions Folio',
         8
     ),
     (
         'Les yeux noirs existent',
-        'book',
+        'litterature',
         'classique',
         'Edition libre',
         9
     ),
     (
         'La constellation',
-        'book',
+        'litterature',
         'poesie',
         'Editions Grasset',
         10
     ),
     (
         'L''amant',
-        'book',
+        'litterature',
         'classique',
         'Editions de minuit',
         11
@@ -356,7 +342,7 @@ INSERT INTO wishlist (user_id, media_id) VALUES (2,2), (2,5);
 
 INSERT INTO "like" (user_id, post_id) VALUES (2,1), (2,6);
 
-INSERT INTO "comment" (id, comment, created_at, user_id, post_id) VALUES 
+INSERT INTO "comment" (id, comment, publicated_at, user_id, post_id) VALUES 
     (1,
     'Analyse vraiment trés interessante, merci!',
     '2022-06-18',
@@ -367,12 +353,3 @@ INSERT INTO "comment" (id, comment, created_at, user_id, post_id) VALUES
     '2024-05-08',
     2,
     8);
-
-   
-   
-   
-       
-
-
-
-
