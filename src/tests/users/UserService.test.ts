@@ -59,7 +59,7 @@ describe('UserService', () => {
             expect(userService.userRepository.findOneBy).toHaveBeenCalledWith({ id: id });
         });
     });
-    
+
     describe('signup', () => {
         it('should create a new user', async () => {
             // Arrange
@@ -67,19 +67,18 @@ describe('UserService', () => {
             const email = 'bob@test.com';
             const password = 'passwordbob';
             const hashedPassword = await bcrypt.hash(password, 10);
-            console.log("hashedPassword", hashedPassword);
 
             const findOneByMock = jest.fn().mockResolvedValue(null);
             const createMock = jest.fn().mockReturnValue({
                 pseudo: pseudo,
                 email: email,
-                password: hashedPassword,
+               // password: hashedPassword,
                 role: 'user'
             });
             const saveMock = jest.fn().mockResolvedValue({
                 pseudo: pseudo,
                 email: email,
-                password: hashedPassword,
+              //  password: hashedPassword,
                 role: 'user'
             });
 
@@ -89,25 +88,28 @@ describe('UserService', () => {
 
             // Act
             const result = await userService.signup(pseudo, email, password);
-
+            const user = createMock.mock.calls[0][0];
             // Assert
             expect(findOneByMock).toHaveBeenCalledWith({ email: email });
-            expect(createMock).toHaveBeenCalledWith({
-                pseudo: pseudo,
-                email: email,
-                password: hashedPassword,
-                role: 'user'
-            });
+            expect(createMock).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    email: 'bob@test.com',
+                    pseudo: 'Bob',
+                    role: 'user',
+                })
+                );
+            expect(await bcrypt.compare('passwordbob', user.password)).toBe(true);
+            
             expect(saveMock).toHaveBeenCalledWith({
                 pseudo: pseudo,
                 email: email,
-                password: hashedPassword,
+               //password: hashedPassword,
                 role: 'user'
             });
             expect(result).toEqual({
                 pseudo: pseudo,
                 email: email,
-                password: hashedPassword,
+               // password: hashedPassword,
                 role: 'user'
             });
         });
@@ -132,4 +134,5 @@ describe('UserService', () => {
             expect(findOneByMock).toHaveBeenCalledWith({ email: email });
         });
     });
+  
 });
