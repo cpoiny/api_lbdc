@@ -1,4 +1,3 @@
-// import { beforeEach, describe, it } from "node:test";
 import UserService from "../../services/UserService";
 import bcrypt from "bcrypt";
 
@@ -31,7 +30,6 @@ describe('UserService', () => {
             await expect(userService.getAllUsers()).rejects.toThrow('No users found');
         });
     });
-
 
     describe('getUserById', () => {
 
