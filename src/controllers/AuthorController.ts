@@ -6,7 +6,13 @@ class AuthorController {
 
     private authorService = new AuthorService();
 
-    // OK - GET ALL users
+    /**
+        * Retrieves all authors.
+        * 
+        * @param req - The request object.
+        * @param res - The response object.
+        * @returns A JSON response with the status and data of the authors, or an error message if the retrieval fails.
+        */
     async getAll(req: Request, res: Response) {
         console.log("AuthorController");
 
@@ -17,9 +23,14 @@ class AuthorController {
             let errorMessage = (error as Error).message;
             res.status(500).json({ status: "Success", message: `Failed to get authors because ${errorMessage}` });
         }
-    }
+    };
 
-    // OK - GET AUTHOR BY ID
+    /**
+        * Retrieves an author by their ID.
+        * 
+        * @param req - The request object.
+        * @param res - The response object.
+        */
     async getAuthorById(req: Request, res: Response) {
         console.log("AuthorController - get by id");
 
@@ -30,9 +41,14 @@ class AuthorController {
             let errorMessage = (error as Error).message;
             res.status(500).json({ status: "Failed", message: `Failed to update author because ${errorMessage}` });
         }
-    }
+    };
 
-    // OK CREATE AUTHOR
+    /**
+        * Creates a new author.
+        * 
+        * @param req - The request object.
+        * @param res - The response object.
+        */
     async create(req: Request, res: Response) {
         console.log("AuthorController create");
 
@@ -43,9 +59,15 @@ class AuthorController {
             let errorMessage = (error as Error).message
             res.status(500).json({ status: "Failed", message: `Failed to create author because ${errorMessage}` });
         }
-    }
+    };
 
-    //ok - UPDATE USER
+    /**
+     * Updates an author.
+     * 
+     * @param req - The request object.
+     * @param res - The response object.
+     * @returns A JSON response indicating the status of the update operation.
+     */
     async updateAuthor(req: Request, res: Response) {
         console.log("AuthorController - update");
 
@@ -56,9 +78,14 @@ class AuthorController {
             let errorMessage = (error as Error).message
             res.status(500).json({ status: "Failed", message: `Failed to update author because ${errorMessage}` });
         }
-    }
+    };
 
-    // OK DELETE AUTHOR
+    /**
+     * Deletes an author.
+     * 
+     * @param req - The request object.
+     * @param res - The response object.
+     */
     async deleteAuthor(req: Request, res: Response) {
         console.log("USerController - delete");
 
@@ -69,7 +96,7 @@ class AuthorController {
             let errorMessage = (error as Error).message
             res.status(500).json({ status: "Failed", message: `Failed to delete author because ${errorMessage}` });
         }
-    }
+    };
 }
 
 export default AuthorController;

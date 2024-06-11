@@ -5,7 +5,13 @@ class UserController {
 
     private userService = new UserService();
 
-    //ok - GET ALL USERS
+    /**
+     * Retrieves all users.
+     * 
+     * @param req - The request object.
+     * @param res - The response object.
+     * @returns A JSON response with the status and data of the users.
+     */
     async getAllUsers(req: Request, res: Response) {
         console.log("UserController - get all");
 
@@ -16,9 +22,15 @@ class UserController {
             let errorMessage = (error as Error).message;
             res.status(500).json({ status: "Failed", message: `Failed to get users because ${errorMessage}` });
         }
-    }
+    };
 
-    //ok - GET USER BY ID
+    /**
+        * Retrieves a user by their ID.
+        * 
+        * @param req - The request object.
+        * @param res - The response object.
+        * @returns A JSON response with the user data if successful, or an error message if failed.
+        */
     async getUserById(req: Request, res: Response) {
         console.log("UserController - get by id");
 
@@ -29,9 +41,15 @@ class UserController {
             let errorMessage = (error as Error).message;
             res.status(500).json({ status: "Failed", message: `Failed to get user because ${errorMessage}` });
         }
-    }
+    };
 
-    //ok - CREATE USER - SIGNUP
+    /**
+     * Handles the signup functionality for a user.
+     * 
+     * @param req - The request object.
+     * @param res - The response object.
+     * @returns A JSON response indicating the status of the signup operation.
+     */
     async signup(req: Request, res: Response) {
         console.log("UserController - signup");
         const { pseudo, email, password } = req.body;
@@ -43,9 +61,15 @@ class UserController {
             let errorMessage = (error as Error).message;
             res.status(500).json({ status: "Failed", message: `Failed to create user ${pseudo} because ${errorMessage}` });
         }
-    }
+    };
 
-    //ok - UPDATE USER
+    /**
+     * Updates a user.
+     *
+     * @param req - The request object.
+     * @param res - The response object.
+     * @returns A JSON response indicating the status of the update operation.
+     */
     async updateUser(req: Request, res: Response) {
         console.log("UserController - update");
 
@@ -56,9 +80,15 @@ class UserController {
             let errorMessage = (error as Error).message;
             res.status(500).json({ status: "Failed", message: `Failed to update user because ${errorMessage}` });
         }
-    }
+    };
 
-    // ok - DELETE USER
+    /**
+     * Deletes a user.
+     * 
+     * @param req - The request object.
+     * @param res - The response object.
+     * @returns A JSON response indicating the status of the operation.
+     */
     async deleteUser(req: Request, res: Response) {
         console.log("USerController - delete");
 
@@ -69,9 +99,15 @@ class UserController {
             let errorMessage = (error as Error).message;
             res.status(500).json({ status: "Failed", message: `Failed to delete user because ${errorMessage}` });
         }
-    }
+    };
 
-    // ok - CONNEXION - AUTHENTICATION
+    /**
+     * Log in an admin user.
+     * 
+     * @param req - The request object.
+     * @param res - The response object.
+     * @returns A JSON response with the status, token, and message.
+     */
     async loginAdmin(req: Request, res: Response) {
         console.log("UserController-login")
         const { email, password } = req.body;
@@ -84,8 +120,14 @@ class UserController {
             res.status(500).json({ status: "Failed", message: `Failed to login admin because ${errorMessage}!` });
         }
 
-    }
+    };
 
+    /**
+        * Logs in a user.
+        * 
+        * @param req - The request object.
+        * @param res - The response object.
+        */
     async loginUser(req: Request, res: Response) {
         console.log("UserController-login user")
         const { email, password } = req.body;
@@ -97,7 +139,7 @@ class UserController {
             let errorMessage = (error as Error).message;
             res.status(500).json({ status: "Failed", message: `Failed to login user because ${errorMessage}!` });
         }
-    }
+    };
 }
 
 export default UserController;
