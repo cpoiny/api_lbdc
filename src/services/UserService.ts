@@ -19,7 +19,7 @@ class UserService {
       throw new Error('No users found');
     }
     return users;
-  }
+  };
 
   /**
    * Retrieves a user by their ID.
@@ -34,7 +34,7 @@ class UserService {
     } else {
       return user;
     }
-  }
+  };
 
   /**
    * Creates a new user with the provided pseudo, email, and password.
@@ -60,7 +60,7 @@ class UserService {
       });
       return await this.userRepository.save(newUser);
     }
-  }
+  };
 
   /**
    * Updates a user with the specified ID.
@@ -84,7 +84,7 @@ class UserService {
     } else {
       throw new Error(`User doesn't exist`);
     }
-  }
+  };
 
   /**
    * Deletes a user by their ID.
@@ -100,7 +100,7 @@ class UserService {
     } else {
       return this.userRepository.delete(id);
     }
-  }
+  };
 
 
   /**
@@ -131,7 +131,7 @@ class UserService {
       { expiresIn: "4h" });
 
     return token;
-  }
+  };
 
   /**
    * Authenticates a user by checking their email and password.
@@ -162,7 +162,7 @@ class UserService {
       { expiresIn: "4h" });
 
     return token;
-  }
+  };
 
 
   /**
@@ -185,7 +185,7 @@ class UserService {
     } else {
       throw new Error("Email already used !");
     }
-  }
+  };
 }
 
 export default UserService;

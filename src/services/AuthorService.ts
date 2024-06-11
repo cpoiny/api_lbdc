@@ -2,9 +2,14 @@ import AppDataSource from "../data-source";
 import { Author } from "../entities/Author";
 
 class AuthorService {
+   
     private authorRepository = AppDataSource.getRepository(Author);
 
-    // ok - GET ALL
+    /**
+     * Retrieves all authors from the author repository.
+     * @returns {Promise<Author[]>} A promise that resolves to an array of authors.
+     * @throws {Error} If no authors are found.
+     */
     async getAll() {
         console.log("AuthorService - get all");
         const authors = await this.authorRepository.find();
@@ -12,9 +17,13 @@ class AuthorService {
             throw new Error('No authors found');
         }
         return authors;
-    }
+    };
 
-    // ok - GET BY ID
+    /**
+     * Retrieves an author by their ID.
+     * @param id - The ID of the author to retrieve.
+     * @returns The author object if found, otherwise throws an error.
+     */
     async getAuthorById(id: number) {
         console.log("AuthorService - Get by id");
         const author = await this.authorRepository.findOneBy({ id: id });
@@ -23,9 +32,14 @@ class AuthorService {
         } else {
             return author;
         }
-    }
+    };
 
-    // OK CREATE AUTHOR
+    /**
+     * Creates a new author.
+     * @param author - The author object to be created.
+     * @returns A promise that resolves to the created author.
+     * @throws Error if the author already exists.
+     */
     async create(author: Author) {
         console.log("AuthorService - create");
         const existingAuthor = await this.authorRepository.findOneBy({ name: author.name });
@@ -35,9 +49,16 @@ class AuthorService {
         const newAuthor = this.authorRepository.create(author);
         console.log("newAuthor", newAuthor);
         return this.authorRepository.save(newAuthor);
-    }
+    };
 
-    // ok - UPDATE AUTHOR
+
+    /**
+     * Updates an author with the specified ID.
+     * @param id - The ID of the author to update.
+     * @param author - The updated author object.
+     * @returns A promise that resolves to the updated author.
+     * @throws Error if the author with the specified ID doesn't exist.
+     */
     async updateAuthor(id: number, author: Author) {
         console.log("AuthorService - Update");
         const foundAuthor = await this.authorRepository.findOneBy({ id: id });
@@ -47,10 +68,15 @@ class AuthorService {
         } else {
             throw new Error(`Author doesn't exist`);
         }
-    }
+    };
 
 
-    // ok - DELETE Author
+    /**
+     * Deletes an author by their ID.
+     * @param id - The ID of the author to delete.
+     * @throws Error if the author is not found.
+     * @returns A promise that resolves to the deleted author.
+     */
     async deleteAuthor(id: number) {
         const author = await this.authorRepository.findOneBy({ id: id });
         console.log("AuthorService - Delete");
@@ -59,7 +85,7 @@ class AuthorService {
         } else {
             return this.authorRepository.delete(id);
         }
-    }
+    };
 }
 
 export default AuthorService;
