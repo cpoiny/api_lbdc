@@ -5,11 +5,11 @@ import jwt from "jsonwebtoken";
 
 class UserService {
 
-  private userRepository = AppDataSource.getRepository(User);
+  public userRepository = AppDataSource.getRepository(User);
 
   // ok - GET ALL USERS
   async getAllUsers() {
-    console.log("UserService - Get all");
+   // console.log("UserService - Get all");
     const users = await this.userRepository.find();
     if (users.length === 0) {
       throw new Error('No users found');
@@ -19,7 +19,7 @@ class UserService {
 
   // ok - GET USER BY ID
   async getUserById(id: number) {
-    console.log("UserService - Get by id");
+   // console.log("UserService - Get by id");
     const user = await this.userRepository.findOneBy({ id: id });
     if (!user) {
       throw new Error('User not found');
@@ -140,7 +140,7 @@ class UserService {
       return true;
       // Email not used
     } else if (!existingUser) {
-      return true;
+      return false;
       // Email used by another user
     } else {
       throw new Error("Email already used !");
