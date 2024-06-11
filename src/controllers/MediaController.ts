@@ -5,7 +5,13 @@ class MediaController {
 
     private mediaService = new MediaService();
 
-    // OK - GET ALL users
+    /**
+        * Retrieves all medias.
+        * 
+        * @param req - The request object.
+        * @param res - The response object.
+        * @returns A JSON response with the status and data of the retrieved medias, or an error message if the retrieval fails.
+        */
     async getAll(req: Request, res: Response) {
         console.log("MediaController");
 
@@ -16,9 +22,15 @@ class MediaController {
             let errorMessage = (error as Error).message;
             res.status(500).json({ status: "Failed", message: `Failed to get medias because ${errorMessage}` });
         }
-    }
+    };
 
-    // OK - GET MEDIA BY ID
+    /**
+        * Retrieves a media by its ID.
+        * 
+        * @param req - The request object.
+        * @param res - The response object.
+        * @returns A JSON response with the retrieved media.
+        */
     async getMediaById(req: Request, res: Response) {
         console.log("MediaController - get by id");
 
@@ -29,9 +41,14 @@ class MediaController {
             let errorMessage = (error as Error).message;
             res.status(500).json({ status: "Failed", message: `Failed to get media because ${errorMessage}` });
         }
-    }
+    };
 
-    // OK CREATE MEDIA
+    /**
+        * Creates a new media.
+        * 
+        * @param req - The request object.
+        * @param res - The response object.
+        */
     async create(req: Request, res: Response) {
         console.log("MediaController create");
 
@@ -42,9 +59,15 @@ class MediaController {
             let errorMessage = (error as Error).message
             res.status(500).json({ status: "Failed", message: `Failed to create media because ${errorMessage}` });
         }
-    }
+    };
 
-    //ok - UPDATE USER
+    /**
+     * Updates a media.
+     * 
+     * @param req - The request object.
+     * @param res - The response object.
+     * @returns A JSON response indicating the status of the update operation.
+     */
     async updateMedia(req: Request, res: Response) {
         console.log("MediaController - update");
 
@@ -55,9 +78,14 @@ class MediaController {
             let errorMessage = (error as Error).message
             res.status(500).json({ status: "Failed", message: `Failed to update media because ${errorMessage}` });
         }
-    }
+    };
 
-    // OK DELETE MEDIA
+    /**
+        * Deletes a media by its ID.
+        * 
+        * @param req - The request object.
+        * @param res - The response object.
+        */
     async deleteMedia(req: Request, res: Response) {
         console.log("MediaController - delete");
 
@@ -68,7 +96,7 @@ class MediaController {
             let errorMessage = (error as Error).message
             res.status(500).json({ status: "Failed", message: `Failed to delete media because ${errorMessage}` });
         }
-    }
+    };
 }
 
 export default MediaController;

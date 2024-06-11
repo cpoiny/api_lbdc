@@ -6,7 +6,13 @@ class PostController {
 
     private postService = new PostService();
 
-    // GET ALL POSTS with AUTHOR and MEDIA associated
+    /**
+        * Retrieves all posts.
+        * 
+        * @param req - The request object.
+        * @param res - The response object.
+        * @returns A JSON response with the status and data of the retrieved posts.
+        */
     async getAll(req: Request, res: Response) {
         console.log("PostController");
 
@@ -17,9 +23,15 @@ class PostController {
             let errorMessage = (error as Error).message;
             res.status(500).json({ status: "Failed", message: `Failed to get posts because ${errorMessage}` });
         }
-    }
+    };
 
-    // OK - GET POST BY ID with author and media
+    /**
+        * Retrieves a post by its ID.
+        * 
+        * @param req - The request object.
+        * @param res - The response object.
+        * @returns A JSON response with the retrieved post.
+        */
     async getPostById(req: Request, res: Response) {
         console.log("PostController - get by id");
 
@@ -30,9 +42,14 @@ class PostController {
             let errorMessage = (error as Error).message;
             res.status(500).json({ status: "Failed", message: `Failed to get post beacause ${errorMessage}` });
         }
-    }
+    };
 
-    // OK - CREATE POST
+    /**
+        * Creates a new post.
+        * 
+        * @param req - The request object.
+        * @param res - The response object.
+        */
     async create(req: Request, res: Response) {
         console.log("PostController create");
 
@@ -43,9 +60,15 @@ class PostController {
             let errorMessage = (error as Error).message;
             res.status(500).json({ status: "Failed", message: `Failed to create post beacause ${errorMessage}` });
         }
-    }
+    };
 
-    // WIP - UPDATE 
+    /**
+     * Updates a post.
+     * 
+     * @param req - The request object.
+     * @param res - The response object.
+     * @returns A JSON response indicating the status of the update operation.
+     */
     async updatePost(req: Request, res: Response) {
         console.log("PostController - update");
         try {
@@ -55,9 +78,14 @@ class PostController {
             let errorMessage = (error as Error).message;
             res.status(500).json({ status: "Failed", message: `Failed to update post beacause ${errorMessage}` });
         }
-    }
+    };
 
-    // OK DELETE POST
+    /**
+        * Deletes a post.
+        * 
+        * @param req - The request object.
+        * @param res - The response object.
+        */
     async deletePost(req: Request, res: Response) {
         console.log("PostController - delete");
 
@@ -68,7 +96,7 @@ class PostController {
             let errorMessage = (error as Error).message;
             res.status(500).json({ status: "Failed", message: `Failed to delete post because ${errorMessage}` });
         }
-    }
+    };
 }
 
 export default PostController;
