@@ -104,57 +104,22 @@ class UserService {
 
 
   /**
-   * Authenticates an admin user by checking the email and password.
-   * If the user is authenticated, a JWT token is generated and returned.
-   * @param email - The email of the admin user.
-   * @param password - The password of the admin user.
-   * @returns The JWT token if the user is authenticated.
-   * @throws Error if the user doesn't exist, doesn't have admin role, or the password is invalid.
-   */
-  async loginAdmin(email: string, password: string) {
-    const user = await this.userRepository.findOneBy({ email: email });
-    if (!user) {
-      throw new Error('User doesnt exists');
-    }
-    if (user.role !== "admin") {
-      throw new Error('User doesnt have admin role');
-    }
-    const isPasswordValid = await bcrypt.compare(password, user.password!);
-    if (!isPasswordValid) {
-      throw new Error('Invalid password');
-    }
-
-    const token = jwt.sign({
-      id: user.id, email: user.email, role: user.role
-    },
-      process.env.JWT_SECRET!,
-      { expiresIn: "4h" });
-
-    return token;
-  };
-
-  /**
-   * Authenticates a user by checking their email and password.
+   * Authenticates an user by checking the email and password.
    * If the user is authenticated, a JWT token is generated and returned.
    * @param email - The email of the user.
    * @param password - The password of the user.
-   * @returns A JWT token if the user is authenticated.
-   * @throws Error if the user doesn't exist, doesn't have the user role, or if the password is invalid.
+   * @returns The JWT token if the user is authenticated.
+   * @throws Error if the user doesn't exist or the password is invalid.
    */
-  async loginUser(email: string, password: string) {
+  async login(email: string, password: string) {
     const user = await this.userRepository.findOneBy({ email: email });
     if (!user) {
       throw new Error('User doesnt exists');
     }
-    if (user.role !== "user") {
-      throw new Error('User doesnt have user role');
-    }
-
     const isPasswordValid = await bcrypt.compare(password, user.password!);
     if (!isPasswordValid) {
       throw new Error('Invalid password');
     }
-
     const token = jwt.sign({
       id: user.id, email: user.email, role: user.role
     },
@@ -163,6 +128,7 @@ class UserService {
 
     return token;
   };
+
 
 
   /**

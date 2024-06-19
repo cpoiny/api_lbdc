@@ -102,43 +102,24 @@ class UserController {
     };
 
     /**
-     * Log in an admin user.
+     * Log in.
      * 
      * @param req - The request object.
      * @param res - The response object.
      * @returns A JSON response with the status, token, and message.
      */
-    async loginAdmin(req: Request, res: Response) {
+    async login(req: Request, res: Response) {
         console.log("UserController-login")
         const { email, password } = req.body;
 
         try {
-            const token = await this.userService.loginAdmin(email, password);
-            res.status(201).json({ status: "Success", token, message: "Connexion admin sucessful" });
+            const token = await this.userService.login(email, password);
+            res.status(201).json({ status: "Success", token, message: "Connexion sucessful" });
         } catch (error) {
             let errorMessage = (error as Error).message;
-            res.status(500).json({ status: "Failed", message: `Failed to login admin because ${errorMessage}!` });
+            res.status(500).json({ status: "Failed", message: `Failed to login because ${errorMessage}!` });
         }
 
-    };
-
-    /**
-        * Logs in a user.
-        * 
-        * @param req - The request object.
-        * @param res - The response object.
-        */
-    async loginUser(req: Request, res: Response) {
-        console.log("UserController-login user")
-        const { email, password } = req.body;
-
-        try {
-            const token = await this.userService.loginUser(email, password);
-            res.status(201).json({ status: "Success", token, message: "Connexion user sucessful" });
-        } catch (error) {
-            let errorMessage = (error as Error).message;
-            res.status(500).json({ status: "Failed", message: `Failed to login user because ${errorMessage}!` });
-        }
     };
 }
 

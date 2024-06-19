@@ -63,23 +63,13 @@ userRouter.delete("/:id", (req, res) => {
 
 
 /**
- * Route for user login (admin).
+ * Route for user login.
  * @route POST /login
  * @middleware checkDataForLogin - Middleware for validating login data.
  */
 userRouter.post("/login", checkDataForLogin, (req, res) => {
     console.log("UserRouter - login");
-    userController.loginAdmin(req, res);
-});
-
-/**
- * Route for user login.
- * @route POST /connexion
- * @middleware checkDataForLogin - Middleware for validating login data.
- */
-userRouter.post("/connexion", checkDataForLogin, (req, res) => {
-    console.log("UserRouter - connexion user");
-    userController.loginUser(req, res);
+    userController.login(req, res);
 });
 
 export default userRouter;
