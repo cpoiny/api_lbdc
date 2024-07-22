@@ -1,5 +1,4 @@
 import { Response } from "express-serve-static-core";
-import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 // npm i --save-dev @types/nodemailer
 
